@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SynaptiChat</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: white;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    #312e81,
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at 80% 80%,
+                    #1e3a8a,
+                    transparent 35%
+                ),
+
+                #070b18;
+        }
+
+
+        .splash {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            text-align: center;
+
+            animation:
+                fadeIn 1.2s ease;
+        }
+
+
+        .brain {
+
+            font-size: 75px;
+
+            margin-bottom: 20px;
+
+            animation:
+                float 2.5s ease-in-out
+                infinite;
+        }
+
+
+        h1 {
+
+            font-size:
+                clamp(
+                    55px,
+                    10vw,
+                    100px
+                );
+
+            letter-spacing: -4px;
+
+            line-height: 1;
+
+            margin-bottom: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #a5b4fc,
+                    #818cf8
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        h2 {
+
+            font-size:
+                clamp(
+                    20px,
+                    4vw,
+                    32px
+                );
+
+            font-weight: 400;
+
+            color: #e0e7ff;
+
+            line-height: 1.4;
+
+            margin-bottom: 20px;
+        }
+
+
+        p {
+
+            max-width: 650px;
+
+            margin: auto;
+
+            color: #94a3b8;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        .tech {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            margin-top: 30px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .tech span {
+
+            padding:
+                8px 16px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+            color: #c7d2fe;
+
+            font-size: 13px;
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+
+        .loading {
+
+            margin-top: 40px;
+
+            color: #818cf8;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .loading-dots span {
+
+            display: inline-block;
+
+            animation:
+                blink 1.4s infinite;
+        }
+
+
+        .loading-dots span:nth-child(2) {
+
+            animation-delay:
+                0.2s;
+        }
+
+
+        .loading-dots span:nth-child(3) {
+
+            animation-delay:
+                0.4s;
+        }
+
+
+        .progress-container {
+
+            width: 220px;
+
+            height: 4px;
+
+            margin:
+                15px auto 0;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .progress {
+
+            height: 100%;
+
+            width: 0%;
+
+            background: #818cf8;
+
+            border-radius: 10px;
+
+            animation:
+                loading 3s linear
+                forwards;
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-12px);
+
+            }
+        }
+
+
+        @keyframes blink {
+
+            0%,
+            80%,
+            100% {
+
+                opacity: 0.2;
+
+            }
+
+            40% {
+
+                opacity: 1;
+
+            }
+        }
+
+
+        @keyframes loading {
+
+            from {
+
+                width: 0%;
+
+            }
+
+            to {
+
+                width: 100%;
+
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .brain {
+
+                font-size: 60px;
+
+            }
+
+
+            h1 {
+
+                letter-spacing: -2px;
+
+            }
+
+
+            p {
+
+                font-size: 14px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="splash">
+
+
+        <div class="brain">
+            🧠
+        </div>
+
+
+        <h1>
+            SynaptiChat
+        </h1>
+
+
+        <h2>
+
+            AI-Powered Conversational
+            Intelligence & Summarization
+
+        </h2>
+
+
+        <p>
+
+            Transform lengthy conversations
+            into concise, meaningful insights
+            using Natural Language Processing
+            and Artificial Intelligence.
+
+        </p>
+
+
+        <div class="tech">
+
+            <span>
+                NLP
+            </span>
+
+            <span>
+                Artificial Intelligence
+            </span>
+
+            <span>
+                Machine Learning
+            </span>
+
+        </div>
+
+
+        <div class="loading">
+
+            Initializing SynaptiChat
+            <span class="loading-dots">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </span>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div class="progress"></div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- AUTOMATIC REDIRECT AFTER 3 SECONDS -->
+
+    <script>
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "home.html";
+
+            },
+            3000
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,939 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f7fb;
+
+    color: #1f2937;
+
+    min-height: 100vh;
+
+    transition:
+        background 0.3s,
+        color 0.3s;
+}
+
+
+.container {
+
+    width: 94%;
+
+    max-width: 1250px;
+
+    margin: auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+
+    padding: 35px 10px 25px;
+}
+
+
+.header-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+header h1 {
+
+    font-size: 36px;
+
+    margin-bottom: 7px;
+}
+
+
+header p {
+
+    color: #6b7280;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-toggle {
+
+    width: 48px;
+
+    height: 48px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px
+        rgba(0, 0, 0, 0.08);
+}
+
+
+.theme-toggle:hover {
+
+    transform: scale(1.08);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+
+    display: grid;
+
+    grid-template-columns:
+        250px 1fr;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-section {
+
+    background: #ffffff;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.08);
+
+    min-height: 500px;
+}
+
+
+.history-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+
+.history-header h2 {
+
+    font-size: 18px;
+
+    margin: 0;
+}
+
+
+.clear-history-btn {
+
+    padding: 7px 10px;
+
+    font-size: 12px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+
+.clear-history-btn:hover {
+
+    background: #fee2e2;
+}
+
+
+.history-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    max-height: 650px;
+
+    overflow-y: auto;
+}
+
+
+.history-empty {
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    padding: 25px 5px;
+}
+
+
+.history-item {
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    background: #f9fafb;
+
+    border: 1px solid #e5e7eb;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.history-item:hover {
+
+    border-color: #818cf8;
+
+    transform: translateY(-2px);
+}
+
+
+.history-item-title {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #374151;
+
+    margin-bottom: 6px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.history-item-date {
+
+    font-size: 11px;
+
+    color: #9ca3af;
+}
+
+
+/* =========================
+   WORKSPACE
+========================= */
+
+.workspace {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.input-section,
+.output-section {
+
+    background: #ffffff;
+
+    padding: 22px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.08);
+}
+
+
+h2 {
+
+    font-size: 21px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+.upload-area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+    padding: 10px;
+
+    background: #f9fafb;
+
+    border: 1px dashed #c7d2fe;
+
+    border-radius: 10px;
+}
+
+
+.upload-btn {
+
+    display: inline-block;
+
+    padding: 9px 13px;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+#fileName {
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   TEXTAREA
+========================= */
+
+textarea {
+
+    width: 100%;
+
+    height: 310px;
+
+    padding: 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    resize: vertical;
+
+    font-size: 14px;
+
+    font-family: inherit;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #1f2937;
+}
+
+
+textarea:focus {
+
+    border-color: #6366f1;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 10px;
+
+    padding: 8px 3px;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+
+.stats strong {
+
+    color: #4f46e5;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.input-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+button {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 12px 16px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.primary-btn {
+
+    flex: 1;
+
+    background: #6366f1;
+
+    color: white;
+}
+
+
+.primary-btn:hover {
+
+    background: #4f46e5;
+}
+
+
+.primary-btn:disabled {
+
+    background: #9ca3af;
+
+    cursor: not-allowed;
+}
+
+
+.secondary-btn {
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    min-width: 90px;
+}
+
+
+/* =========================
+   SUMMARY HEADER
+========================= */
+
+.summary-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+
+.summary-header h2 {
+
+    margin-bottom: 5px;
+}
+
+
+.summary-title {
+
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+
+.summary-actions {
+
+    display: flex;
+
+    gap: 7px;
+}
+
+
+.copy-btn {
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    padding: 8px 11px;
+
+    font-size: 12px;
+}
+
+
+.download-btn {
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+    padding: 8px 11px;
+
+    font-size: 12px;
+}
+
+
+.copy-btn:disabled,
+.download-btn:disabled {
+
+    background: #f3f4f6;
+
+    color: #9ca3af;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   SUMMARY BOX
+========================= */
+
+#summaryBox {
+
+    height: 270px;
+
+    padding: 15px;
+
+    background: #f9fafb;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    line-height: 1.7;
+
+    overflow-y: auto;
+}
+
+
+.placeholder {
+
+    color: #9ca3af;
+}
+
+
+/* =========================
+   ANALYTICS
+========================= */
+
+.analytics {
+
+    margin-top: 18px;
+}
+
+
+.analytics h3 {
+
+    font-size: 15px;
+
+    margin-bottom: 10px;
+}
+
+
+.analytics-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 8px;
+}
+
+
+.analytics-card {
+
+    padding: 12px;
+
+    background: #f9fafb;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    text-align: center;
+}
+
+
+.analytics-card span {
+
+    display: block;
+
+    font-size: 10px;
+
+    color: #6b7280;
+
+    margin-bottom: 5px;
+}
+
+
+.analytics-card strong {
+
+    font-size: 18px;
+
+    color: #4f46e5;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   DARK MODE
+================================================== */
+
+body.dark-mode {
+
+    background: #111827;
+
+    color: #f9fafb;
+}
+
+
+body.dark-mode header p,
+body.dark-mode .summary-title,
+body.dark-mode footer {
+
+    color: #9ca3af;
+}
+
+
+body.dark-mode
+.input-section,
+
+body.dark-mode
+.output-section,
+
+body.dark-mode
+.history-section {
+
+    background: #1f2937;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.35);
+}
+
+
+body.dark-mode
+.theme-toggle {
+
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode
+.upload-area {
+
+    background: #111827;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode
+.upload-btn {
+
+    background: #312e81;
+
+    color: #c7d2fe;
+}
+
+
+body.dark-mode
+#fileName {
+
+    color: #9ca3af;
+}
+
+
+body.dark-mode textarea {
+
+    background: #111827;
+
+    color: #f9fafb;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode
+textarea::placeholder {
+
+    color: #6b7280;
+}
+
+
+body.dark-mode
+.stats {
+
+    color: #9ca3af;
+}
+
+
+body.dark-mode
+.stats strong {
+
+    color: #a5b4fc;
+}
+
+
+body.dark-mode
+.secondary-btn {
+
+    background: #374151;
+
+    color: #f9fafb;
+}
+
+
+body.dark-mode
+#summaryBox {
+
+    background: #111827;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode
+.analytics-card,
+
+body.dark-mode
+.history-item {
+
+    background: #111827;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode
+.history-item-title {
+
+    color: #f9fafb;
+}
+
+
+body.dark-mode
+.history-item-date {
+
+    color: #6b7280;
+}
+
+
+body.dark-mode
+.history-empty {
+
+    color: #6b7280;
+}
+
+
+body.dark-mode
+.copy-btn {
+
+    background: #312e81;
+
+    color: #c7d2fe;
+}
+
+
+body.dark-mode
+.download-btn {
+
+    background: #064e3b;
+
+    color: #a7f3d0;
+}
+
+
+body.dark-mode
+.clear-history-btn {
+
+    background: #450a0a;
+
+    color: #fca5a5;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 950px) {
+
+    main {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .history-section {
+
+        min-height: auto;
+    }
+
+
+    .history-list {
+
+        max-height: 220px;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .workspace {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    header h1 {
+
+        font-size: 30px;
+    }
+
+
+    .stats {
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+
+    .input-buttons {
+
+        flex-direction: column;
+    }
+
+
+    .summary-header {
+
+        flex-direction: column;
+    }
+
+
+    .summary-actions {
+
+        width: 100%;
+    }
+
+
+    .summary-actions button {
+
+        flex: 1;
+    }
+
+
+    .analytics-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .history-list {
+
+        grid-template-columns: 1fr;
+    }
+
+}

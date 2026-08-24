@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SynaptiChat | AI Summarizer</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="header-top">
+
+            <div>
+
+                <h1>SynaptiChat</h1>
+
+                <p>
+                    AI-Powered Conversational Intelligence
+                </p>
+
+            </div>
+
+
+            <button
+                id="themeToggle"
+                class="theme-toggle"
+                title="Toggle dark mode"
+            >
+                🌙
+            </button>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav
+            style="
+                margin-top:20px;
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap;
+            "
+        >
+
+            <a
+                href="summarizer.html"
+                style="
+                    text-decoration:none;
+                    padding:10px 16px;
+                    background:#6366f1;
+                    color:white;
+                    border-radius:9px;
+                    font-weight:bold;
+                    font-size:14px;
+                "
+            >
+                🧠 AI Summarizer
+            </a>
+
+
+            <a
+                href="about.html"
+                style="
+                    text-decoration:none;
+                    padding:10px 16px;
+                    background:#eef2ff;
+                    color:#4f46e5;
+                    border-radius:9px;
+                    font-weight:bold;
+                    font-size:14px;
+                "
+            >
+                🔬 AI Architecture
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <!-- HISTORY SIDEBAR -->
+
+        <aside class="history-section">
+
+
+            <div class="history-header">
+
+                <h2>
+                    🕘 History
+                </h2>
+
+
+                <button
+                    id="clearHistoryBtn"
+                    class="clear-history-btn"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div
+                id="historyList"
+                class="history-list"
+            >
+
+                <p class="history-empty">
+
+                    No summaries yet.
+
+                    <br><br>
+
+                    Your summaries will
+                    appear here.
+
+                </p>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- WORKSPACE -->
+
+        <div class="workspace">
+
+
+            <!-- INPUT -->
+
+            <section class="input-section">
+
+                <h2>
+                    📝 Conversation Input
+                </h2>
+
+
+                <div class="upload-area">
+
+                    <label
+                        for="fileInput"
+                        class="upload-btn"
+                    >
+                        📁 Upload TXT File
+                    </label>
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        accept=".txt"
+                        hidden
+                    >
+
+                    <span id="fileName">
+                        No file selected
+                    </span>
+
+                </div>
+
+
+                <textarea
+                    id="chatInput"
+                    placeholder="Paste your conversation here..."
+                ></textarea>
+
+
+                <!-- INPUT STATS -->
+
+                <div class="stats">
+
+                    <span>
+
+                        Words:
+
+                        <strong id="wordCount">
+                            0
+                        </strong>
+
+                    </span>
+
+
+                    <span>
+
+                        Characters:
+
+                        <strong id="charCount">
+                            0
+                        </strong>
+
+                    </span>
+
+
+                    <span>
+
+                        Messages:
+
+                        <strong id="messageCount">
+                            0
+                        </strong>
+
+                    </span>
+
+                </div>
+
+
+                <div class="input-buttons">
+
+                    <button
+                        id="summarizeBtn"
+                        class="primary-btn"
+                    >
+                        ✨ Summarize Chat
+                    </button>
+
+
+                    <button
+                        id="clearBtn"
+                        class="secondary-btn"
+                    >
+                        🗑️ Clear
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- SUMMARY -->
+
+            <section class="output-section">
+
+
+                <div class="summary-header">
+
+                    <div>
+
+                        <h2>
+                            🤖 AI Summary
+                        </h2>
+
+                        <p
+                            id="summaryTitle"
+                            class="summary-title"
+                        >
+                            No summary generated yet
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-actions">
+
+                        <button
+                            id="copyBtn"
+                            class="copy-btn"
+                            disabled
+                        >
+                            📋 Copy
+                        </button>
+
+
+                        <button
+                            id="downloadBtn"
+                            class="download-btn"
+                            disabled
+                        >
+                            💾 Download
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div id="summaryBox">
+
+                    <p class="placeholder">
+
+                        Your AI-generated summary
+                        will appear here...
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- ANALYTICS -->
+
+                <div
+                    id="analytics"
+                    class="analytics"
+                >
+
+                    <h3>
+                        📊 Conversation Analytics
+                    </h3>
+
+
+                    <div class="analytics-grid">
+
+
+                        <div class="analytics-card">
+
+                            <span>
+                                Original Words
+                            </span>
+
+                            <strong id="originalWords">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="analytics-card">
+
+                            <span>
+                                Summary Words
+                            </span>
+
+                            <strong id="summaryWords">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="analytics-card">
+
+                            <span>
+                                Reduction
+                            </span>
+
+                            <strong id="reductionPercent">
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="analytics-card">
+
+                            <span>
+                                Messages
+                            </span>
+
+                            <strong id="analyticsMessages">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+
+    <footer>
+
+        <p>
+            SynaptiChat • NLP • AI • Machine Learning
+        </p>
+
+    </footer>
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
