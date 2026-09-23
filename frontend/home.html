@@ -2,17 +2,22 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        name="description"
+        content="SynaptiChat - AI-powered conversational intelligence and chat summarization."
     >
 
-    <title>SynaptiChat | Workspace</title>
+    <title>SynaptiChat | Dashboard</title>
 
     <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================= */
 
         * {
             margin: 0;
@@ -21,234 +26,918 @@
         }
 
         body {
-
             min-height: 100vh;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
             font-family:
-                Arial,
-                Helvetica,
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
                 sans-serif;
-
-            color: white;
 
             background:
                 radial-gradient(
-                    circle at 15% 20%,
-                    #312e81,
-                    transparent 35%
+                    circle at 10% 10%,
+                    rgba(99, 102, 241, 0.16),
+                    transparent 30%
                 ),
-
                 radial-gradient(
-                    circle at 85% 80%,
-                    #1e3a8a,
-                    transparent 35%
+                    circle at 90% 20%,
+                    rgba(139, 92, 246, 0.14),
+                    transparent 30%
                 ),
+                #080b16;
 
-                #070b18;
+            color: #f8fafc;
         }
 
-        .wrapper {
 
-            width: 90%;
+        /* =========================================
+           NAVBAR
+        ========================================= */
 
-            max-width: 1000px;
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
 
-            text-align: center;
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background: rgba(8, 11, 22, 0.78);
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .logo {
 
-            font-size: 55px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
 
-            margin-bottom: 10px;
+            text-decoration: none;
+            color: white;
         }
 
-        h1 {
 
-            font-size:
-                clamp(
-                    38px,
-                    6vw,
-                    65px
-                );
+        .brand-icon {
+            width: 42px;
+            height: 42px;
 
-            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
 
             background:
                 linear-gradient(
-                    90deg,
-                    #ffffff,
-                    #a5b4fc,
-                    #818cf8
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
                 );
 
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color:
-                transparent;
-        }
-
-        .subtitle {
-
-            color: #94a3b8;
-
-            font-size: 17px;
-
-            margin-bottom: 50px;
-        }
-
-        .cards {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    2,
-                    minmax(
-                        250px,
-                        1fr
-                    )
-                );
-
-            gap: 25px;
-        }
-
-        .card {
-
-            text-decoration: none;
-
-            color: white;
-
-            padding: 40px 30px;
-
-            border-radius: 22px;
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.06
-                );
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.12
-                );
-
-            backdrop-filter:
-                blur(15px);
-
-            transition:
-                transform 0.3s ease,
-                border-color 0.3s ease,
-                background 0.3s ease;
+            font-size: 21px;
 
             box-shadow:
-                0 20px 50px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                );
+                0 8px 30px rgba(99, 102, 241, 0.28);
         }
 
-        .card:hover {
 
-            transform:
-                translateY(-8px);
-
-            border-color:
-                rgba(
-                    129,
-                    140,
-                    248,
-                    0.7
-                );
-
-            background:
-                rgba(
-                    129,
-                    140,
-                    248,
-                    0.12
-                );
+        .brand-name {
+            font-size: 19px;
+            font-weight: 750;
+            letter-spacing: -0.4px;
         }
 
-        .card-icon {
 
-            font-size: 55px;
+        .brand-subtitle {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .user-email {
+            color: #cbd5e1;
+            font-size: 13px;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.04);
+
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+
+        .theme-btn,
+        .logout-btn {
+            border: none;
+            cursor: pointer;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.25s ease;
+        }
+
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+        }
+
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.10);
+            color: #fca5a5;
+
+            border: 1px solid rgba(239, 68, 68, 0.18);
+        }
+
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.18);
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+            width: min(1180px, 90%);
+
+            margin: auto;
+
+            padding: 65px 0 80px;
+        }
+
+
+        /* =========================================
+           WELCOME
+        ========================================= */
+
+        .welcome {
+            text-align: center;
+
+            max-width: 760px;
+
+            margin: 0 auto 48px;
+        }
+
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 13px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.6px;
+
+            color: #c4b5fd;
+
+            background: rgba(124, 58, 237, 0.10);
+
+            border: 1px solid rgba(139, 92, 246, 0.20);
 
             margin-bottom: 20px;
         }
 
-        .card h2 {
 
-            font-size: 24px;
+        .welcome h1 {
+            font-size: clamp(34px, 5vw, 55px);
+
+            line-height: 1.08;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .gradient-text {
+            background:
+                linear-gradient(
+                    90deg,
+                    #818cf8,
+                    #c084fc,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+
+        .welcome p {
+            color: #94a3b8;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+           PRIMARY AI SUMMARIZER
+        ========================================= */
+
+        .primary-feature {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 42px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.17),
+                    rgba(139, 92, 246, 0.10)
+                );
+
+            border: 1px solid rgba(129, 140, 248, 0.28);
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.32),
+                0 0 55px rgba(99, 102, 241, 0.08);
+
+            margin-bottom: 48px;
+
+            transition:
+                transform 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+
+        .primary-feature:hover {
+            transform: translateY(-4px);
+
+            border-color:
+                rgba(129, 140, 248, 0.48);
+
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.38),
+                0 0 70px rgba(99, 102, 241, 0.13);
+        }
+
+
+        .primary-feature::before {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            right: -100px;
+            top: -120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(139, 92, 246, 0.13);
+
+            filter: blur(10px);
+
+            pointer-events: none;
+        }
+
+
+        .primary-content {
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            align-items: center;
+
+            gap: 35px;
+        }
+
+
+        .core-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #ddd6fe;
+
+            background:
+                rgba(124, 58, 237, 0.20);
+
+            border:
+                1px solid rgba(167, 139, 250, 0.25);
+
+            margin-bottom: 16px;
+        }
+
+
+        .core-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #a78bfa;
+
+            box-shadow:
+                0 0 12px rgba(167, 139, 250, 0.8);
+        }
+
+
+        .primary-feature h2 {
+            font-size: clamp(27px, 4vw, 38px);
+
+            letter-spacing: -1px;
 
             margin-bottom: 12px;
         }
 
-        .card p {
 
-            color: #94a3b8;
+        .primary-feature p {
+            max-width: 650px;
+
+            color: #aab4c5;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            margin-bottom: 23px;
+        }
+
+
+        .primary-points {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-bottom: 27px;
+        }
+
+
+        .point {
+            padding: 7px 11px;
+
+            border-radius: 8px;
+
+            color: #cbd5e1;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.07);
+
+            font-size: 11px;
+        }
+
+
+        .primary-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 13px 20px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            box-shadow:
+                0 12px 30px rgba(99, 102, 241, 0.25);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 16px 38px rgba(99, 102, 241, 0.38);
+        }
+
+
+        .arrow {
+            font-size: 18px;
+
+            transition: transform 0.25s ease;
+        }
+
+
+        .primary-btn:hover .arrow {
+            transform: translateX(4px);
+        }
+
+
+        /* =========================================
+           AI ICON
+        ========================================= */
+
+        .ai-visual {
+            width: 145px;
+            height: 145px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 35px;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
+            box-shadow:
+                inset 0 0 40px rgba(99, 102, 241, 0.08);
+        }
+
+
+        .ai-visual-icon {
+            font-size: 62px;
+
+            filter:
+                drop-shadow(
+                    0 0 22px
+                    rgba(139, 92, 246, 0.55)
+                );
+        }
+
+
+        /* =========================================
+           OTHER TOOLS
+        ========================================= */
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-heading h3 {
+            font-size: 20px;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .section-heading span {
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        .secondary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 45px;
+        }
+
+
+        .secondary-card {
+            display: block;
+
+            padding: 25px;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.07);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+
+        .secondary-card:hover {
+            transform: translateY(-3px);
+
+            background:
+                rgba(255, 255, 255, 0.055);
+
+            border-color:
+                rgba(129, 140, 248, 0.22);
+        }
+
+
+        .secondary-icon {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(99, 102, 241, 0.10);
+
+            font-size: 20px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .secondary-card h4 {
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .secondary-card p {
+            color: #7f8ba0;
+
+            font-size: 13px;
 
             line-height: 1.6;
 
-            font-size: 14px;
+            margin-bottom: 14px;
         }
 
-        .arrow {
 
-            display: inline-block;
-
-            margin-top: 22px;
-
+        .secondary-link {
             color: #a5b4fc;
 
-            font-weight: bold;
+            font-size: 12px;
 
-            font-size: 14px;
+            font-weight: 700;
         }
 
-        .footer {
 
-            margin-top: 45px;
+        /* =========================================
+           QUICK STATS
+        ========================================= */
 
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+        }
+
+
+        .stat-card {
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            text-align: center;
+        }
+
+
+        .stat-value {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #cbd5e1;
+
+            margin-bottom: 5px;
+        }
+
+
+        .stat-label {
             color: #64748b;
 
-            font-size: 13px;
+            font-size: 11px;
         }
 
-        @media (max-width: 650px) {
 
-            .cards {
+        /* =========================================
+           FOOTER
+        ========================================= */
 
+        footer {
+            padding: 28px 6%;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            text-align: center;
+
+            color: #475569;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           LIGHT THEME
+        ========================================= */
+
+        body.light-theme {
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(99, 102, 241, 0.09),
+                    transparent 30%
+                ),
+                #f5f7fb;
+
+            color: #0f172a;
+        }
+
+
+        body.light-theme .navbar {
+            background:
+                rgba(255, 255, 255, 0.82);
+
+            border-bottom:
+                1px solid rgba(15, 23, 42, 0.08);
+        }
+
+
+        body.light-theme .brand {
+            color: #0f172a;
+        }
+
+
+        body.light-theme .brand-subtitle {
+            color: #64748b;
+        }
+
+
+        body.light-theme .user-email {
+            color: #475569;
+
+            background: rgba(15, 23, 42, 0.035);
+
+            border-color:
+                rgba(15, 23, 42, 0.08);
+        }
+
+
+        body.light-theme .theme-btn {
+            color: #334155;
+
+            background:
+                rgba(15, 23, 42, 0.05);
+        }
+
+
+        body.light-theme .welcome p {
+            color: #64748b;
+        }
+
+
+        body.light-theme .primary-feature {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.09),
+                    rgba(139, 92, 246, 0.05)
+                );
+
+            border-color:
+                rgba(99, 102, 241, 0.18);
+        }
+
+
+        body.light-theme .primary-feature p {
+            color: #64748b;
+        }
+
+
+        body.light-theme .point {
+            color: #475569;
+
+            background:
+                rgba(15, 23, 42, 0.035);
+
+            border-color:
+                rgba(15, 23, 42, 0.07);
+        }
+
+
+        body.light-theme .ai-visual {
+            background:
+                rgba(99, 102, 241, 0.06);
+
+            border-color:
+                rgba(99, 102, 241, 0.12);
+        }
+
+
+        body.light-theme .secondary-card {
+            background:
+                rgba(255, 255, 255, 0.75);
+
+            border-color:
+                rgba(15, 23, 42, 0.07);
+        }
+
+
+        body.light-theme .secondary-card p {
+            color: #64748b;
+        }
+
+
+        body.light-theme .stat-card {
+            background:
+                rgba(255, 255, 255, 0.70);
+
+            border-color:
+                rgba(15, 23, 42, 0.07);
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+
+            .user-email {
+                display: none;
+            }
+
+
+            .main {
+                width: 92%;
+
+                padding-top: 45px;
+            }
+
+
+            .primary-content {
                 grid-template-columns: 1fr;
-
             }
 
-            .card {
 
-                padding: 30px 20px;
-
+            .ai-visual {
+                display: none;
             }
 
-            .subtitle {
 
-                margin-bottom: 30px;
+            .primary-feature {
+                padding: 30px 25px;
+            }
 
+
+            .secondary-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .brand-subtitle {
+                display: none;
+            }
+
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+
+            .theme-btn {
+                padding: 8px 10px;
+            }
+
+
+            .logout-btn {
+                padding: 8px 10px;
+            }
+
+
+            .welcome {
+                margin-bottom: 35px;
+            }
+
+
+            .welcome h1 {
+                letter-spacing: -1px;
+            }
+
+
+            .primary-feature {
+                border-radius: 22px;
+
+                padding: 25px 20px;
+            }
+
+
+            .primary-btn {
+                width: 100%;
             }
 
         }
@@ -261,103 +950,477 @@
 <body>
 
 
-    <div class="wrapper">
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar">
+
+        <a href="home.html" class="brand">
+
+            <div class="brand-icon">
+                🧠
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    SynaptiChat
+                </div>
+
+                <div class="brand-subtitle">
+                    Conversational Intelligence
+                </div>
+
+            </div>
+
+        </a>
 
 
-        <div class="logo">
-            🧠
+        <div class="nav-right">
+
+            <span
+                class="user-email"
+                id="userEmail"
+            >
+                User
+            </span>
+
+
+            <button
+                class="theme-btn"
+                id="themeToggle"
+                title="Toggle theme"
+            >
+                🌙
+            </button>
+
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome">
+
+            <div class="welcome-badge">
+                ✦ AI-POWERED WORKSPACE
+            </div>
+
+
+            <h1>
+
+                Welcome to
+                <span class="gradient-text">
+                    SynaptiChat
+                </span>
+
+            </h1>
+
+
+            <p>
+                Transform lengthy conversations into
+                meaningful summaries and actionable
+                insights using AI-powered language
+                processing.
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================
+             PRIMARY FEATURE
+        ====================================== -->
+
+        <section class="primary-feature">
+
+            <div class="primary-content">
+
+
+                <div>
+
+                    <div class="core-badge">
+
+                        <span class="core-dot"></span>
+
+                        CORE FEATURE
+
+                    </div>
+
+
+                    <h2>
+                        ✨ AI Chat Summarizer
+                    </h2>
+
+
+                    <p>
+                        Turn lengthy conversations into
+                        concise, meaningful summaries.
+                        SynaptiChat analyzes your chat logs
+                        and extracts the most important
+                        information so you can understand
+                        conversations faster.
+                    </p>
+
+
+                    <div class="primary-points">
+
+                        <span class="point">
+                            🤖 Transformer NLP
+                        </span>
+
+                        <span class="point">
+                            ⚡ Local AI Processing
+                        </span>
+
+                        <span class="point">
+                            📊 Summary Analytics
+                        </span>
+
+                        <span class="point">
+                            🔒 Privacy-Friendly
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="summarizer.html"
+                        class="primary-btn"
+                    >
+
+                        ✨ Summarize a Chat
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="ai-visual">
+
+                    <div class="ai-visual-icon">
+                        🧠
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             SECONDARY FEATURES
+        ====================================== -->
+
+        <div class="section-heading">
+
+            <h3>
+                Explore SynaptiChat
+            </h3>
+
+            <span>
+                Additional tools
+            </span>
+
         </div>
 
 
-        <h1>
-            SynaptiChat
-        </h1>
-
-
-        <p class="subtitle">
-
-            Conversational Intelligence
-            & AI-Powered NLP Platform
-
-        </p>
-
-
-        <div class="cards">
-
-
-            <!-- AI SUMMARIZER -->
-
-            <a
-                href="summarizer.html"
-                class="card"
-            >
-
-                <div class="card-icon">
-                    🧠
-                </div>
-
-                <h2>
-                    AI Summarizer
-                </h2>
-
-                <p>
-
-                    Transform lengthy conversations
-                    into concise and meaningful
-                    summaries using Natural
-                    Language Processing.
-
-                </p>
-
-                <span class="arrow">
-                    Launch Summarizer →
-                </span>
-
-            </a>
+        <section class="secondary-grid">
 
 
             <!-- AI ARCHITECTURE -->
 
             <a
                 href="about.html"
-                class="card"
+                class="secondary-card"
             >
 
-                <div class="card-icon">
-                    🔬
+                <div class="secondary-icon">
+                    ⚙️
                 </div>
 
-                <h2>
+
+                <h4>
                     AI Architecture
-                </h2>
+                </h4>
+
 
                 <p>
-
-                    Explore the technology,
-                    NLP pipeline, system
-                    architecture, and intelligent
-                    processing behind SynaptiChat.
-
+                    Explore how SynaptiChat processes
+                    conversations using preprocessing,
+                    tokenization, Transformer models,
+                    and abstractive summarization.
                 </p>
 
-                <span class="arrow">
+
+                <span class="secondary-link">
                     Explore Architecture →
                 </span>
 
             </a>
 
 
-        </div>
+
+            <!-- SUMMARIZER SHORTCUT -->
+
+            <a
+                href="summarizer.html"
+                class="secondary-card"
+            >
+
+                <div class="secondary-icon">
+                    📊
+                </div>
 
 
-        <p class="footer">
-
-            SynaptiChat • NLP • Artificial Intelligence • Machine Learning
-
-        </p>
+                <h4>
+                    Summary Analytics
+                </h4>
 
 
-    </div>
+                <p>
+                    Review summary statistics such as
+                    word reduction, original length,
+                    summary length, and message count.
+                </p>
+
+
+                <span class="secondary-link">
+                    View Summarizer →
+                </span>
+
+            </a>
+
+        </section>
+
+
+
+        <!-- =====================================
+             SYSTEM HIGHLIGHTS
+        ====================================== -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-value">
+                    Transformer NLP
+                </div>
+
+                <div class="stat-label">
+                    AI Language Processing
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-value">
+                    Local Processing
+                </div>
+
+                <div class="stat-label">
+                    No External API Required
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-value">
+                    Real-Time
+                </div>
+
+                <div class="stat-label">
+                    Fast Conversation Analysis
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        © 2026 SynaptiChat ·
+        AI-Powered Conversational Intelligence
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+        /* =========================================
+           LOGIN PROTECTION
+        ========================================== */
+
+        const loggedIn =
+            localStorage.getItem(
+                "synaptichat_logged_in"
+            );
+
+
+        if (loggedIn !== "true") {
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY USER EMAIL
+        ========================================== */
+
+        const savedEmail =
+            localStorage.getItem(
+                "synaptichat_email"
+            );
+
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        if (savedEmail) {
+
+            userEmail.textContent =
+                savedEmail;
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================== */
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        logoutBtn.addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    "synaptichat_logged_in"
+                );
+
+                localStorage.removeItem(
+                    "synaptichat_email"
+                );
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+
+
+        /* =========================================
+           THEME
+        ========================================== */
+
+        const themeToggle =
+            document.getElementById(
+                "themeToggle"
+            );
+
+
+        const savedTheme =
+            localStorage.getItem(
+                "smartchat-theme"
+            );
+
+
+        if (savedTheme === "light") {
+
+            document.body.classList.add(
+                "light-theme"
+            );
+
+            themeToggle.textContent = "☀️";
+
+        }
+
+
+        themeToggle.addEventListener(
+            "click",
+            function () {
+
+                document.body.classList.toggle(
+                    "light-theme"
+                );
+
+
+                const isLight =
+                    document.body.classList.contains(
+                        "light-theme"
+                    );
+
+
+                localStorage.setItem(
+                    "smartchat-theme",
+                    isLight
+                        ? "light"
+                        : "dark"
+                );
+
+
+                themeToggle.textContent =
+                    isLight
+                        ? "☀️"
+                        : "🌙";
+
+            }
+        );
+
+    </script>
 
 
 </body>

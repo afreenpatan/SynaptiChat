@@ -1,37 +1,93 @@
-const chatInput = document.getElementById("chatInput");
-const summarizeBtn = document.getElementById("summarizeBtn");
-const clearBtn = document.getElementById("clearBtn");
-const copyBtn = document.getElementById("copyBtn");
-const downloadBtn = document.getElementById("downloadBtn");
-const summaryBox = document.getElementById("summaryBox");
+/* ============================================================
+   SYNAPTICHAT - AI CHAT SUMMARIZER
+   ============================================================ */
 
-const wordCount = document.getElementById("wordCount");
-const charCount = document.getElementById("charCount");
-const messageCount = document.getElementById("messageCount");
 
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
+/* ============================================================
+   AUTHENTICATION PROTECTION
+   ============================================================ */
 
-const themeToggle = document.getElementById("themeToggle");
+const loggedIn =
+    localStorage.getItem("synaptichat_logged_in");
 
-const historyList = document.getElementById("historyList");
-const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+if (loggedIn !== "true") {
+    window.location.href = "login.html";
+}
 
-const summaryTitle = document.getElementById("summaryTitle");
 
-const originalWords = document.getElementById("originalWords");
-const summaryWords = document.getElementById("summaryWords");
-const reductionPercent = document.getElementById("reductionPercent");
-const analyticsMessages = document.getElementById("analyticsMessages");
+/* ============================================================
+   DOM ELEMENTS
+   ============================================================ */
 
+const chatInput =
+    document.getElementById("chatInput");
+
+const summarizeBtn =
+    document.getElementById("summarizeBtn");
+
+const clearBtn =
+    document.getElementById("clearBtn");
+
+const copyBtn =
+    document.getElementById("copyBtn");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
+const summaryBox =
+    document.getElementById("summaryBox");
+
+const wordCount =
+    document.getElementById("wordCount");
+
+const charCount =
+    document.getElementById("charCount");
+
+const messageCount =
+    document.getElementById("messageCount");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const fileName =
+    document.getElementById("fileName");
+
+const themeToggle =
+    document.getElementById("themeToggle");
+
+const historyList =
+    document.getElementById("historyList");
+
+const clearHistoryBtn =
+    document.getElementById("clearHistoryBtn");
+
+const summaryTitle =
+    document.getElementById("summaryTitle");
+
+const originalWords =
+    document.getElementById("originalWords");
+
+const summaryWords =
+    document.getElementById("summaryWords");
+
+const reductionPercent =
+    document.getElementById("reductionPercent");
+
+const analyticsMessages =
+    document.getElementById("analyticsMessages");
+
+
+/* ============================================================
+   GLOBAL STATE
+   ============================================================ */
 
 let currentSummary = "";
 let currentTitle = "";
 
 
-/* ==========================================
+/* ============================================================
    WORD COUNT
-========================================== */
+   ============================================================ */
 
 function countWords(text) {
 
@@ -39,13 +95,16 @@ function countWords(text) {
         return 0;
     }
 
-    return text.trim().split(/\s+/).length;
+    return text
+        .trim()
+        .split(/\s+/)
+        .length;
 }
 
 
-/* ==========================================
+/* ============================================================
    MESSAGE COUNT
-========================================== */
+   ============================================================ */
 
 function countMessages(text) {
 
@@ -60,19 +119,23 @@ function countMessages(text) {
 }
 
 
-/* ==========================================
-   UPDATE INPUT STATISTICS
-========================================== */
+/* ============================================================
+   UPDATE STATISTICS
+   ============================================================ */
 
 function updateStatistics() {
 
-    const text = chatInput.value;
+    const text =
+        chatInput.value;
 
-    wordCount.textContent = countWords(text);
+    wordCount.textContent =
+        countWords(text);
 
-    charCount.textContent = text.length;
+    charCount.textContent =
+        text.length;
 
-    messageCount.textContent = countMessages(text);
+    messageCount.textContent =
+        countMessages(text);
 }
 
 
@@ -82,39 +145,46 @@ chatInput.addEventListener(
 );
 
 
-/* ==========================================
-   CREATE TITLE
-========================================== */
+/* ============================================================
+   CREATE SUMMARY TITLE
+   ============================================================ */
 
 function createTitle(text) {
 
-    const cleaned = text
-        .replace(/\s+/g, " ")
-        .trim();
+    const cleaned =
+        text
+            .replace(/\s+/g, " ")
+            .trim();
 
     if (!cleaned) {
         return "Conversation Summary";
     }
 
-    let title = cleaned.split(/[.!?]/)[0];
+    let title =
+        cleaned.split(/[.!?]/)[0];
 
-    if (title.length > 50) {
-        title = title.substring(0, 50).trim() + "...";
+    if (title.length > 55) {
+
+        title =
+            title.substring(0, 55).trim()
+            + "...";
     }
 
-    return title || "Conversation Summary";
+    return title ||
+        "Conversation Summary";
 }
 
 
-/* ==========================================
+/* ============================================================
    FILE UPLOAD
-========================================== */
+   ============================================================ */
 
 fileInput.addEventListener(
     "change",
     function () {
 
-        const file = fileInput.files[0];
+        const file =
+            fileInput.files[0];
 
         if (!file) {
             return;
@@ -138,72 +208,73 @@ fileInput.addEventListener(
             return;
         }
 
+        fileName.textContent =
+            file.name;
 
-        fileName.textContent = file.name;
+        const reader =
+            new FileReader();
 
+        reader.onload =
+            function (event) {
 
-        const reader = new FileReader();
+                chatInput.value =
+                    event.target.result;
 
+                updateStatistics();
 
-        reader.onload = function (event) {
-
-            chatInput.value =
-                event.target.result;
-
-            updateStatistics();
-
-            resetSummary();
-
-        };
-
+                resetSummary();
+            };
 
         reader.readAsText(file);
-
     }
 );
 
 
-/* ==========================================
+/* ============================================================
    RESET SUMMARY
-========================================== */
+   ============================================================ */
 
 function resetSummary() {
 
     currentSummary = "";
-
     currentTitle = "";
-
 
     summaryTitle.textContent =
         "No summary generated yet";
 
-
     summaryBox.innerHTML = `
-        <p class="placeholder">
-            Your AI-generated summary
-            will appear here...
-        </p>
+        <div class="placeholder">
+
+            <div class="placeholder-icon">
+                🧠
+            </div>
+
+            <h3>
+                Your AI summary will appear here
+            </h3>
+
+            <p>
+                Enter a conversation and let
+                SynaptiChat analyze the important
+                information for you.
+            </p>
+
+        </div>
     `;
 
-
     copyBtn.disabled = true;
-
     downloadBtn.disabled = true;
 
-
     originalWords.textContent = "0";
-
     summaryWords.textContent = "0";
-
     reductionPercent.textContent = "0%";
-
     analyticsMessages.textContent = "0";
 }
 
 
-/* ==========================================
-   SUMMARIZE
-========================================== */
+/* ============================================================
+   SUMMARIZE CHAT
+   ============================================================ */
 
 summarizeBtn.addEventListener(
     "click",
@@ -211,7 +282,6 @@ summarizeBtn.addEventListener(
 
         const text =
             chatInput.value.trim();
-
 
         if (!text) {
 
@@ -223,21 +293,38 @@ summarizeBtn.addEventListener(
         }
 
 
+        /* ----------------------------------------
+           Loading state
+           ---------------------------------------- */
+
         summarizeBtn.disabled = true;
 
-        summarizeBtn.textContent =
-            "⏳ Summarizing...";
-
+        summarizeBtn.innerHTML =
+            "⏳ Analyzing conversation...";
 
         summaryBox.innerHTML = `
-            <p class="placeholder">
-                🧠 AI is analyzing
-                your conversation...
-            </p>
+            <div class="ai-loading">
+
+                <div class="loading-spinner"></div>
+
+                <h3>
+                    SynaptiChat AI is working
+                </h3>
+
+                <p>
+                    Analyzing messages and extracting
+                    the most important information...
+                </p>
+
+            </div>
         `;
 
 
         try {
+
+            /* ----------------------------------------
+               SEND CHAT TO BACKEND
+               ---------------------------------------- */
 
             const response =
                 await fetch(
@@ -258,50 +345,254 @@ summarizeBtn.addEventListener(
                 );
 
 
+            /* ----------------------------------------
+               SERVER ERROR
+               ---------------------------------------- */
+
             if (!response.ok) {
 
                 throw new Error(
-                    "Server error: " +
+                    "Backend returned HTTP " +
                     response.status
                 );
             }
 
 
+            /* ----------------------------------------
+               READ AI RESPONSE
+               ---------------------------------------- */
+
             const data =
                 await response.json();
 
 
-            currentSummary =
-                data.summary || "";
+            if (
+                !data.summary ||
+                !data.summary.trim()
+            ) {
 
+                throw new Error(
+                    "AI returned an empty summary."
+                );
+            }
+
+
+            /* ----------------------------------------
+               SAVE MAIN SUMMARY
+               ---------------------------------------- */
+
+            currentSummary =
+                data.summary.trim();
 
             currentTitle =
                 createTitle(text);
 
 
-            /* Show AI summary */
+            /* ----------------------------------------
+               GET STRUCTURED RESULTS
+               ---------------------------------------- */
+
+            const actions =
+                Array.isArray(data.actions)
+                    ? data.actions
+                    : [];
+
+            const deadlines =
+                Array.isArray(data.deadlines)
+                    ? data.deadlines
+                    : [];
+
+
+            /* ----------------------------------------
+               DISPLAY TITLE
+               ---------------------------------------- */
 
             summaryTitle.textContent =
                 currentTitle;
 
 
-            summaryBox.innerHTML = `
-                <p>
-                    ${escapeHTML(
-                        currentSummary
-                    )}
-                </p>
+            /* ----------------------------------------
+               BUILD RESULT UI
+               ---------------------------------------- */
+
+            let resultHTML = `
+
+                <div class="ai-result">
+
+
+                    <!-- SUMMARY -->
+
+                    <section class="result-section">
+
+                        <h3 class="result-heading">
+                            📝 SUMMARY
+                        </h3>
+
+                        <p class="generated-summary">
+                            ${escapeHTML(
+                                currentSummary
+                            )}
+                        </p>
+
+                    </section>
+
             `;
 
 
-            /* Enable buttons */
+            /* ----------------------------------------
+               KEY ACTIONS
+               ---------------------------------------- */
+
+            if (actions.length > 0) {
+
+                resultHTML += `
+
+                    <section class="result-section">
+
+                        <h3 class="result-heading">
+                            🎯 KEY ACTIONS
+                        </h3>
+
+                        <ul class="result-list">
+
+                `;
+
+
+                actions.forEach(
+                    function (item) {
+
+                        const person =
+                            item.person ||
+                            "Team";
+
+                        const task =
+                            item.task ||
+                            "";
+
+
+                        resultHTML += `
+
+                            <li>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        person
+                                    )}
+                                </strong>
+
+                                —
+                                
+                                ${escapeHTML(
+                                    task
+                                )}
+
+                            </li>
+
+                        `;
+                    }
+                );
+
+
+                resultHTML += `
+
+                        </ul>
+
+                    </section>
+
+                `;
+            }
+
+
+            /* ----------------------------------------
+               DEADLINES
+               ---------------------------------------- */
+
+            if (deadlines.length > 0) {
+
+                resultHTML += `
+
+                    <section class="result-section">
+
+                        <h3 class="result-heading">
+                            ⏰ DEADLINES
+                        </h3>
+
+                        <ul class="result-list">
+
+                `;
+
+
+                deadlines.forEach(
+                    function (item) {
+
+                        const date =
+                            item.date ||
+                            "Deadline";
+
+                        const description =
+                            item.description ||
+                            "";
+
+
+                        resultHTML += `
+
+                            <li>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        date
+                                    )}
+                                </strong>
+
+                                —
+
+                                ${escapeHTML(
+                                    description
+                                )}
+
+                            </li>
+
+                        `;
+                    }
+                );
+
+
+                resultHTML += `
+
+                        </ul>
+
+                    </section>
+
+                `;
+            }
+
+
+            /* ----------------------------------------
+               CLOSE RESULT CONTAINER
+               ---------------------------------------- */
+
+            resultHTML += `
+
+                </div>
+
+            `;
+
+
+            summaryBox.innerHTML =
+                resultHTML;
+
+
+            /* ----------------------------------------
+               ENABLE ACTION BUTTONS
+               ---------------------------------------- */
 
             copyBtn.disabled = false;
-
             downloadBtn.disabled = false;
 
 
-            /* Analytics */
+            /* ----------------------------------------
+               ANALYTICS
+               ---------------------------------------- */
 
             updateAnalytics(
                 text,
@@ -309,7 +600,9 @@ summarizeBtn.addEventListener(
             );
 
 
-            /* Save history */
+            /* ----------------------------------------
+               SAVE HISTORY
+               ---------------------------------------- */
 
             saveToHistory(
                 text,
@@ -317,48 +610,57 @@ summarizeBtn.addEventListener(
                 currentTitle
             );
 
-
-            /* Refresh history */
-
             displayHistory();
 
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "SynaptiChat Error:",
+                error
+            );
 
 
             summaryBox.innerHTML = `
-                <p class="placeholder">
 
-                    ❌ Unable to connect
-                    to the AI backend.
+                <div class="error-state">
 
-                    <br><br>
+                    <div class="error-icon">
+                        ⚠️
+                    </div>
 
-                    Please make sure
-                    FastAPI is running.
+                    <h3>
+                        Unable to generate summary
+                    </h3>
 
-                </p>
+                    <p>
+                        Make sure the SynaptiChat
+                        AI backend is running.
+                    </p>
+
+                    <small>
+                        Backend:
+                        http://127.0.0.1:8000
+                    </small>
+
+                </div>
+
             `;
-
 
         } finally {
 
             summarizeBtn.disabled = false;
 
-            summarizeBtn.textContent =
+            summarizeBtn.innerHTML =
                 "✨ Summarize Chat";
-
         }
-
     }
 );
 
 
-/* ==========================================
+/* ============================================================
    ANALYTICS
-========================================== */
+   ============================================================ */
 
 function updateAnalytics(
     originalText,
@@ -371,20 +673,24 @@ function updateAnalytics(
     const summary =
         countWords(summaryText);
 
-
     let reduction = 0;
 
 
     if (original > 0) {
 
         reduction =
-            ((original - summary)
-                / original) * 100;
+            (
+                (original - summary)
+                / original
+            ) * 100;
     }
 
 
     reduction =
-        Math.max(0, reduction);
+        Math.max(
+            0,
+            Math.min(100, reduction)
+        );
 
 
     originalWords.textContent =
@@ -401,19 +707,17 @@ function updateAnalytics(
 }
 
 
-/* ==========================================
-   COPY BUTTON
-========================================== */
+/* ============================================================
+   COPY SUMMARY
+   ============================================================ */
 
 copyBtn.addEventListener(
     "click",
     async function () {
 
         if (!currentSummary) {
-
             return;
         }
-
 
         try {
 
@@ -421,33 +725,13 @@ copyBtn.addEventListener(
                 currentSummary
             );
 
-
-            copyBtn.textContent =
-                "✅ Copied!";
-
-
-            setTimeout(
-                function () {
-
-                    copyBtn.textContent =
-                        "📋 Copy";
-
-                },
-                2000
+            showTemporaryButtonText(
+                copyBtn,
+                "✅ Copied!",
+                "📋 Copy"
             );
-
 
         } catch (error) {
-
-            console.error(
-                "Copy failed:",
-                error
-            );
-
-
-            /*
-               Backup copy method
-            */
 
             const temp =
                 document.createElement(
@@ -457,56 +741,65 @@ copyBtn.addEventListener(
             temp.value =
                 currentSummary;
 
-            document.body.appendChild(
-                temp
-            );
+            document.body.appendChild(temp);
 
             temp.select();
 
-            document.execCommand(
-                "copy"
+            document.execCommand("copy");
+
+            document.body.removeChild(temp);
+
+            showTemporaryButtonText(
+                copyBtn,
+                "✅ Copied!",
+                "📋 Copy"
             );
-
-            document.body.removeChild(
-                temp
-            );
-
-
-            copyBtn.textContent =
-                "✅ Copied!";
-
-
-            setTimeout(
-                function () {
-
-                    copyBtn.textContent =
-                        "📋 Copy";
-
-                },
-                2000
-            );
-
         }
-
     }
 );
 
 
-/* ==========================================
-   DOWNLOAD BUTTON
-========================================== */
+/* ============================================================
+   BUTTON FEEDBACK
+   ============================================================ */
+
+function showTemporaryButtonText(
+    button,
+    temporaryText,
+    originalText
+) {
+
+    button.textContent =
+        temporaryText;
+
+    setTimeout(
+        function () {
+
+            button.textContent =
+                originalText;
+
+        },
+        2000
+    );
+}
+
+
+/* ============================================================
+   DOWNLOAD SUMMARY
+   ============================================================ */
 
 downloadBtn.addEventListener(
     "click",
     function () {
 
         if (!currentSummary) {
-
             return;
         }
 
 
         const content =
+            "SynaptiChat\n" +
+            "Conversation Summary\n\n" +
             currentTitle +
             "\n\n" +
             currentSummary;
@@ -529,50 +822,33 @@ downloadBtn.addEventListener(
         const link =
             document.createElement("a");
 
-
         link.href = url;
 
         link.download =
             "SynaptiChat_Summary.txt";
 
 
-        document.body.appendChild(
-            link
-        );
-
+        document.body.appendChild(link);
 
         link.click();
 
-
-        document.body.removeChild(
-            link
-        );
-
+        document.body.removeChild(link);
 
         URL.revokeObjectURL(url);
 
 
-        downloadBtn.textContent =
-            "✅ Downloaded!";
-
-
-        setTimeout(
-            function () {
-
-                downloadBtn.textContent =
-                    "💾 Download";
-
-            },
-            2000
+        showTemporaryButtonText(
+            downloadBtn,
+            "✅ Downloaded!",
+            "💾 Download"
         );
-
     }
 );
 
 
-/* ==========================================
+/* ============================================================
    CLEAR CURRENT CHAT
-========================================== */
+   ============================================================ */
 
 clearBtn.addEventListener(
     "click",
@@ -585,18 +861,16 @@ clearBtn.addEventListener(
         fileName.textContent =
             "No file selected";
 
-
         updateStatistics();
 
         resetSummary();
-
     }
 );
 
 
-/* ==========================================
-   HISTORY STORAGE
-========================================== */
+/* ============================================================
+   HISTORY
+   ============================================================ */
 
 function getHistory() {
 
@@ -607,7 +881,6 @@ function getHistory() {
 
 
     if (!saved) {
-
         return [];
     }
 
@@ -623,9 +896,9 @@ function getHistory() {
 }
 
 
-/* ==========================================
+/* ============================================================
    SAVE HISTORY
-========================================== */
+   ============================================================ */
 
 function saveToHistory(
     originalText,
@@ -648,8 +921,8 @@ function saveToHistory(
         summary: summary,
 
         date:
-            new Date().toLocaleString()
-
+            new Date()
+                .toLocaleString()
     };
 
 
@@ -665,9 +938,9 @@ function saveToHistory(
 }
 
 
-/* ==========================================
+/* ============================================================
    DISPLAY HISTORY
-========================================== */
+   ============================================================ */
 
 function displayHistory() {
 
@@ -678,16 +951,17 @@ function displayHistory() {
     if (!history.length) {
 
         historyList.innerHTML = `
+
             <p class="history-empty">
 
                 No summaries yet.
 
                 <br><br>
 
-                Your summaries will
-                appear here.
+                Your AI summaries will appear here.
 
             </p>
+
         `;
 
         return;
@@ -701,7 +975,9 @@ function displayHistory() {
         function (item) {
 
             const historyItem =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             historyItem.className =
@@ -709,18 +985,26 @@ function displayHistory() {
 
 
             historyItem.innerHTML = `
-                <div
-                    class="history-item-title"
-                >
+
+                <div class="history-item-title">
+
                     📝
-                    ${escapeHTML(item.title)}
+
+                    ${escapeHTML(
+                        item.title
+                    )}
+
                 </div>
 
-                <div
-                    class="history-item-date"
-                >
-                    ${escapeHTML(item.date)}
+
+                <div class="history-item-date">
+
+                    ${escapeHTML(
+                        item.date
+                    )}
+
                 </div>
+
             `;
 
 
@@ -728,7 +1012,9 @@ function displayHistory() {
                 "click",
                 function () {
 
-                    loadHistoryItem(item);
+                    loadHistoryItem(
+                        item
+                    );
 
                 }
             );
@@ -737,35 +1023,22 @@ function displayHistory() {
             historyList.appendChild(
                 historyItem
             );
-
         }
     );
 }
 
 
-/* ==========================================
-   LOAD HISTORY
-========================================== */
+/* ============================================================
+   LOAD HISTORY ITEM
+   ============================================================ */
 
 function loadHistoryItem(item) {
-
-    /*
-       Original conversation goes
-       ONLY into the input box.
-    */
 
     chatInput.value =
         item.original;
 
-
-    /*
-       Saved AI summary goes
-       ONLY into summary box.
-    */
-
     currentSummary =
         item.summary;
-
 
     currentTitle =
         item.title;
@@ -776,33 +1049,46 @@ function loadHistoryItem(item) {
 
 
     summaryBox.innerHTML = `
-        <p>
-            ${escapeHTML(
-                item.summary
-            )}
-        </p>
+
+        <div class="ai-result">
+
+            <section class="result-section">
+
+                <h3 class="result-heading">
+                    📝 SUMMARY
+                </h3>
+
+                <p class="generated-summary">
+
+                    ${escapeHTML(
+                        item.summary
+                    )}
+
+                </p>
+
+            </section>
+
+        </div>
+
     `;
 
 
     copyBtn.disabled = false;
-
     downloadBtn.disabled = false;
 
 
     updateStatistics();
 
-
     updateAnalytics(
         item.original,
         item.summary
     );
-
 }
 
 
-/* ==========================================
-   CLEAR ALL HISTORY
-========================================== */
+/* ============================================================
+   CLEAR HISTORY
+   ============================================================ */
 
 clearHistoryBtn.addEventListener(
     "click",
@@ -829,7 +1115,6 @@ clearHistoryBtn.addEventListener(
 
 
         if (!confirmed) {
-
             return;
         }
 
@@ -841,16 +1126,14 @@ clearHistoryBtn.addEventListener(
 
         displayHistory();
 
-
         resetSummary();
-
     }
 );
 
 
-/* ==========================================
+/* ============================================================
    ESCAPE HTML
-========================================== */
+   ============================================================ */
 
 function escapeHTML(text) {
 
@@ -863,9 +1146,9 @@ function escapeHTML(text) {
 }
 
 
-/* ==========================================
+/* ============================================================
    DARK MODE
-========================================== */
+   ============================================================ */
 
 const savedTheme =
     localStorage.getItem(
@@ -879,7 +1162,13 @@ if (savedTheme === "dark") {
         "dark-mode"
     );
 
-    themeToggle.textContent = "☀️";
+    themeToggle.textContent =
+        "☀️";
+
+} else {
+
+    themeToggle.textContent =
+        "🌙";
 }
 
 
@@ -918,14 +1207,13 @@ themeToggle.addEventListener(
                 "light"
             );
         }
-
     }
 );
 
 
-/* ==========================================
-   START
-========================================== */
+/* ============================================================
+   INITIALIZE
+   ============================================================ */
 
 updateStatistics();
 

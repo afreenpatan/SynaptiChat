@@ -426,9 +426,11 @@
 
             Initializing SynaptiChat
             <span class="loading-dots">
+
                 <span>.</span>
                 <span>.</span>
                 <span>.</span>
+
             </span>
 
         </div>
@@ -444,19 +446,17 @@
     </div>
 
 
-    <!-- AUTOMATIC REDIRECT AFTER 3 SECONDS -->
+    <!-- =====================================
+         AUTOMATIC REDIRECT TO LOGIN
+         ===================================== -->
 
     <script>
 
-        setTimeout(
-            function () {
+        setTimeout(function () {
 
-                window.location.href =
-                    "home.html";
+            window.location.href = "login.html";
 
-            },
-            3000
-        );
+        }, 3000);
 
     </script>
 

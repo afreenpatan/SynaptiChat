@@ -10,6 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="description"
+        content="SynaptiChat - AI-powered conversational intelligence and chat summarization"
+    >
+
     <title>SynaptiChat | AI Summarizer</title>
 
     <link
@@ -26,7 +31,9 @@
 <div class="container">
 
 
-    <!-- HEADER -->
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
     <header>
 
@@ -34,7 +41,9 @@
 
             <div>
 
-                <h1>SynaptiChat</h1>
+                <h1>
+                    SynaptiChat
+                </h1>
 
                 <p>
                     AI-Powered Conversational Intelligence
@@ -46,7 +55,9 @@
             <button
                 id="themeToggle"
                 class="theme-toggle"
-                title="Toggle dark mode"
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
             >
                 🌙
             </button>
@@ -54,27 +65,47 @@
         </div>
 
 
-        <!-- NAVIGATION -->
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
 
         <nav
             style="
                 margin-top:20px;
                 display:flex;
-                gap:10px;
+                gap:8px;
                 flex-wrap:wrap;
             "
         >
 
             <a
+                href="home.html"
+                style="
+                    text-decoration:none;
+                    padding:10px 15px;
+                    background:rgba(255,255,255,0.06);
+                    color:#cbd5e1;
+                    border:1px solid rgba(255,255,255,0.08);
+                    border-radius:9px;
+                    font-weight:600;
+                    font-size:12px;
+                "
+            >
+                🏠 Dashboard
+            </a>
+
+
+            <a
                 href="summarizer.html"
                 style="
                     text-decoration:none;
-                    padding:10px 16px;
-                    background:#6366f1;
+                    padding:10px 15px;
+                    background:linear-gradient(135deg,#6366f1,#7c3aed);
                     color:white;
                     border-radius:9px;
-                    font-weight:bold;
-                    font-size:14px;
+                    font-weight:700;
+                    font-size:12px;
+                    box-shadow:0 6px 18px rgba(99,102,241,0.2);
                 "
             >
                 🧠 AI Summarizer
@@ -85,12 +116,13 @@
                 href="about.html"
                 style="
                     text-decoration:none;
-                    padding:10px 16px;
-                    background:#eef2ff;
-                    color:#4f46e5;
+                    padding:10px 15px;
+                    background:rgba(255,255,255,0.06);
+                    color:#cbd5e1;
+                    border:1px solid rgba(255,255,255,0.08);
                     border-radius:9px;
-                    font-weight:bold;
-                    font-size:14px;
+                    font-weight:600;
+                    font-size:12px;
                 "
             >
                 🔬 AI Architecture
@@ -102,12 +134,16 @@
 
 
 
-    <!-- MAIN -->
+    <!-- =====================================================
+         MAIN APPLICATION
+         ===================================================== -->
 
     <main>
 
 
-        <!-- HISTORY SIDEBAR -->
+        <!-- =================================================
+             HISTORY SIDEBAR
+             ================================================= -->
 
         <aside class="history-section">
 
@@ -122,6 +158,7 @@
                 <button
                     id="clearHistoryBtn"
                     class="clear-history-btn"
+                    type="button"
                 >
                     Clear
                 </button>
@@ -140,8 +177,8 @@
 
                     <br><br>
 
-                    Your summaries will
-                    appear here.
+                    Your generated summaries
+                    will appear here.
 
                 </p>
 
@@ -151,14 +188,19 @@
 
 
 
-        <!-- WORKSPACE -->
+        <!-- =================================================
+             WORKSPACE
+             ================================================= -->
 
         <div class="workspace">
 
 
-            <!-- INPUT -->
+            <!-- =================================================
+                 CONVERSATION INPUT
+                 ================================================= -->
 
             <section class="input-section">
+
 
                 <h2>
                     📝 Conversation Input
@@ -174,12 +216,14 @@
                         📁 Upload TXT File
                     </label>
 
+
                     <input
                         type="file"
                         id="fileInput"
                         accept=".txt"
                         hidden
                     >
+
 
                     <span id="fileName">
                         No file selected
@@ -190,17 +234,24 @@
 
                 <textarea
                     id="chatInput"
-                    placeholder="Paste your conversation here..."
+                    placeholder="Paste your conversation here...
+
+Example:
+Person A: Are we having the project meeting today?
+Person B: Yes, at 3 PM.
+Person A: Great. I will prepare the project report."
+                    spellcheck="true"
                 ></textarea>
 
 
-                <!-- INPUT STATS -->
+                <!-- INPUT STATISTICS -->
 
                 <div class="stats">
 
+
                     <span>
 
-                        Words:
+                        Words
 
                         <strong id="wordCount">
                             0
@@ -211,7 +262,7 @@
 
                     <span>
 
-                        Characters:
+                        Characters
 
                         <strong id="charCount">
                             0
@@ -222,7 +273,7 @@
 
                     <span>
 
-                        Messages:
+                        Messages
 
                         <strong id="messageCount">
                             0
@@ -230,14 +281,19 @@
 
                     </span>
 
+
                 </div>
 
 
+                <!-- ACTION BUTTONS -->
+
                 <div class="input-buttons">
+
 
                     <button
                         id="summarizeBtn"
                         class="primary-btn"
+                        type="button"
                     >
                         ✨ Summarize Chat
                     </button>
@@ -246,28 +302,35 @@
                     <button
                         id="clearBtn"
                         class="secondary-btn"
+                        type="button"
                     >
                         🗑️ Clear
                     </button>
 
+
                 </div>
+
 
             </section>
 
 
 
-            <!-- SUMMARY -->
+            <!-- =================================================
+                 AI SUMMARY OUTPUT
+                 ================================================= -->
 
             <section class="output-section">
 
 
                 <div class="summary-header">
 
+
                     <div>
 
                         <h2>
                             🤖 AI Summary
                         </h2>
+
 
                         <p
                             id="summaryTitle"
@@ -281,9 +344,11 @@
 
                     <div class="summary-actions">
 
+
                         <button
                             id="copyBtn"
                             class="copy-btn"
+                            type="button"
                             disabled
                         >
                             📋 Copy
@@ -293,35 +358,52 @@
                         <button
                             id="downloadBtn"
                             class="download-btn"
+                            type="button"
                             disabled
                         >
                             💾 Download
                         </button>
 
+
                     </div>
+
 
                 </div>
 
+
+
+                <!-- SUMMARY RESULT -->
 
                 <div id="summaryBox">
 
+
                     <p class="placeholder">
 
-                        Your AI-generated summary
+                        🧠 Your AI-generated summary
                         will appear here...
 
+                        <br><br>
+
+                        Enter a conversation and click
+                        <strong>Summarize Chat</strong>
+                        to begin.
+
                     </p>
+
 
                 </div>
 
 
 
-                <!-- ANALYTICS -->
+                <!-- =================================================
+                     ANALYTICS
+                     ================================================= -->
 
                 <div
                     id="analytics"
                     class="analytics"
                 >
+
 
                     <h3>
                         📊 Conversation Analytics
@@ -333,73 +415,101 @@
 
                         <div class="analytics-card">
 
+
                             <span>
                                 Original Words
                             </span>
+
 
                             <strong id="originalWords">
                                 0
                             </strong>
 
+
                         </div>
 
 
+
                         <div class="analytics-card">
+
 
                             <span>
                                 Summary Words
                             </span>
 
+
                             <strong id="summaryWords">
                                 0
                             </strong>
 
+
                         </div>
 
 
+
                         <div class="analytics-card">
+
 
                             <span>
                                 Reduction
                             </span>
 
+
                             <strong id="reductionPercent">
                                 0%
                             </strong>
 
+
                         </div>
 
 
+
                         <div class="analytics-card">
+
 
                             <span>
                                 Messages
                             </span>
 
+
                             <strong id="analyticsMessages">
                                 0
                             </strong>
+
 
                         </div>
 
 
                     </div>
 
+
                 </div>
+
 
             </section>
 
 
         </div>
 
+
     </main>
 
 
 
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer>
 
         <p>
-            SynaptiChat • NLP • AI • Machine Learning
+            SynaptiChat
+            &nbsp;•&nbsp;
+            NLP
+            &nbsp;•&nbsp;
+            AI
+            &nbsp;•&nbsp;
+            Machine Learning
         </p>
 
     </footer>
@@ -409,7 +519,12 @@
 
 
 
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
 <script src="script.js"></script>
+
 
 </body>
 

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | SynaptiChat</title>
+
+    <!-- Login Page CSS -->
+    <link rel="stylesheet" href="login-style.css">
+
+</head>
+
+
+<body class="login-page">
+
+
+    <!-- =====================================
+         LOGIN CONTAINER
+         ===================================== -->
+
+    <div class="login-container">
+
+
+        <!-- Logo -->
+        <div class="login-logo">
+            🧠
+        </div>
+
+
+        <!-- Heading -->
+        <h1>Welcome Back</h1>
+
+
+        <p class="login-subtitle">
+            Login to continue to
+            <strong>SynaptiChat</strong>
+        </p>
+
+
+        <!-- =====================================
+             LOGIN FORM
+             ===================================== -->
+
+        <form id="loginForm">
+
+
+            <!-- Email -->
+            <div class="input-group">
+
+                <label for="email">
+                    Email ID
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <!-- Show / Hide Password -->
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="password-toggle"
+                        aria-label="Show or hide password"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 PASSWORD REQUIREMENTS
+                 ===================================== -->
+
+            <div class="password-requirements">
+
+                <p>
+                    Password must contain:
+                </p>
+
+
+                <div id="length">
+                    ○ At least 8 characters
+                </div>
+
+
+                <div id="uppercase">
+                    ○ One uppercase letter
+                </div>
+
+
+                <div id="number">
+                    ○ One number
+                </div>
+
+
+                <div id="special">
+                    ○ One special character
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 ERROR MESSAGE
+                 ===================================== -->
+
+            <div
+                id="loginError"
+                class="login-error"
+                role="alert"
+            ></div>
+
+
+            <!-- =====================================
+                 LOGIN BUTTON
+                 ===================================== -->
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton"
+            >
+                🔐 Login
+            </button>
+
+
+        </form>
+
+
+        <!-- =====================================
+             FORGOT PASSWORD
+             ===================================== -->
+
+        <div class="login-links">
+
+            <a href="#" id="forgotPassword">
+                Forgot Password?
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             CREATE ACCOUNT
+             ===================================== -->
+
+        <div class="signup-text">
+
+            Don't have an account?
+
+            <a href="#" id="signupLink">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             BACK TO LANDING PAGE
+             ===================================== -->
+
+        <div class="back-home">
+
+            <a href="index.html">
+                ← Back to SynaptiChat
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             BRAND FOOTER
+             ===================================== -->
+
+        <div class="login-footer">
+
+            <span>SynaptiChat</span>
+
+            <span>•</span>
+
+            <span>NLP</span>
+
+            <span>•</span>
+
+            <span>AI</span>
+
+            <span>•</span>
+
+            <span>Machine Learning</span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         LOGIN JAVASCRIPT
+         ===================================== -->
+
+    <script src="login.js"></script>
+
+
+</body>
+
+</html>

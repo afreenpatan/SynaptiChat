@@ -1,0 +1,324 @@
+/* =========================================
+   SYNAPTICHAT LOGIN PAGE
+   ========================================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(90, 70, 180, 0.25),
+            transparent 40%
+        ),
+        #0b0b12;
+
+    font-family: Arial, sans-serif;
+
+    padding: 30px;
+}
+
+
+.login-container {
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 40px;
+
+    border-radius: 22px;
+
+    background: rgba(25, 25, 38, 0.95);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+}
+
+
+.login-logo {
+
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    font-size: 38px;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+.login-container h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    color: white;
+}
+
+
+.login-subtitle {
+
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+    color: #a7a7b5;
+
+    font-size: 14px;
+}
+
+
+.login-subtitle strong {
+
+    color: white;
+}
+
+
+.input-group {
+
+    text-align: left;
+
+    margin-bottom: 20px;
+}
+
+
+.input-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #ddd;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.input-group input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 14px 15px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background: rgba(255,255,255,0.06);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+
+.input-group input:focus {
+
+    border-color: #8b7cff;
+
+    box-shadow:
+        0 0 0 3px rgba(139,124,255,0.12);
+}
+
+
+.input-group input::placeholder {
+
+    color: #777787;
+}
+
+
+/* Password */
+
+.password-container {
+
+    position: relative;
+}
+
+
+.password-container input {
+
+    padding-right: 50px;
+}
+
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    padding: 5px;
+}
+
+
+/* Password requirements */
+
+.password-requirements {
+
+    text-align: left;
+
+    margin-top: -5px;
+
+    margin-bottom: 20px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.04);
+
+    color: #9999aa;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+.password-requirements p {
+
+    margin: 0 0 5px;
+
+    color: #ccc;
+
+    font-weight: 600;
+}
+
+
+/* Error */
+
+.login-error {
+
+    min-height: 20px;
+
+    margin-bottom: 10px;
+
+    color: #ff6b6b;
+
+    font-size: 13px;
+}
+
+
+/* Login button */
+
+.login-button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #7c6cff;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+
+.login-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(124,108,255,0.3);
+}
+
+
+/* Links */
+
+.login-links {
+
+    margin-top: 20px;
+}
+
+
+.login-links a,
+.signup-text a {
+
+    color: #9a8cff;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.login-links a:hover,
+.signup-text a:hover {
+
+    text-decoration: underline;
+}
+
+
+.signup-text {
+
+    margin-top: 20px;
+
+    color: #888899;
+
+    font-size: 14px;
+}
+
+
+.back-home {
+
+    margin-top: 25px;
+
+    font-size: 13px;
+}
+
+
+.back-home a {
+
+    color: #777787;
+
+    text-decoration: none;
+}
+
+
+.back-home a:hover {
+
+    color: white;
+}
