@@ -166,9 +166,7 @@ function createTitle(text) {
     if (title.length > 55) {
 
         title =
-            title
-                .substring(0, 55)
-                .trim()
+            title.substring(0, 55).trim()
             + "...";
     }
 
@@ -330,7 +328,7 @@ summarizeBtn.addEventListener(
 
             const response =
                 await fetch(
-                    "http://127.0.0.1:8000/summarize",
+                    "https://synaptichat.onrender.com/summarize",
                     {
                         method: "POST",
 
@@ -353,26 +351,9 @@ summarizeBtn.addEventListener(
 
             if (!response.ok) {
 
-                let errorMessage =
-                    "Backend returned HTTP " +
-                    response.status;
-
-                try {
-
-                    const errorData =
-                        await response.json();
-
-                    if (errorData.detail) {
-                        errorMessage =
-                            errorData.detail;
-                    }
-
-                } catch (error) {
-                    // Keep default error message.
-                }
-
                 throw new Error(
-                    errorMessage
+                    "Backend returned HTTP " +
+                    response.status
                 );
             }
 
@@ -438,11 +419,13 @@ summarizeBtn.addEventListener(
 
                 <div class="ai-result">
 
+
                     <!-- SUMMARY -->
 
                     <section class="result-section">
 
                         <h3 class="result-heading">
+
                             📝 SUMMARY
                         </h3>
 
@@ -479,19 +462,7 @@ summarizeBtn.addEventListener(
                 actions.forEach(
                     function (item) {
 
-                        /*
-                         * BACKEND RETURNS:
-                         *
-                         * {
-                         *     "name": "Arjun",
-                         *     "task": "finish the project"
-                         * }
-                         *
-                         * So we MUST use item.name.
-                         */
-
                         const person =
-                            item.name ||
                             item.person ||
                             "Team";
 
@@ -511,7 +482,7 @@ summarizeBtn.addEventListener(
                                 </strong>
 
                                 —
-
+                                
                                 ${escapeHTML(
                                     task
                                 )}
@@ -555,28 +526,12 @@ summarizeBtn.addEventListener(
                 deadlines.forEach(
                     function (item) {
 
-                        /*
-                         * BACKEND RETURNS:
-                         *
-                         * {
-                         *     "deadline": "Friday",
-                         *     "description": "...",
-                         *     "name": "Meera"
-                         * }
-                         */
-
                         const date =
-                            item.deadline ||
                             item.date ||
                             "Deadline";
 
                         const description =
                             item.description ||
-                            "";
-
-                        const person =
-                            item.name ||
-                            item.person ||
                             "";
 
 
@@ -595,12 +550,6 @@ summarizeBtn.addEventListener(
                                 ${escapeHTML(
                                     description
                                 )}
-
-                                ${
-                                    person
-                                        ? ` — ${escapeHTML(person)}`
-                                        : ""
-                                }
 
                             </li>
 
@@ -686,10 +635,8 @@ summarizeBtn.addEventListener(
                     </h3>
 
                     <p>
-                        ${escapeHTML(
-                            error.message ||
-                            "Make sure the SynaptiChat AI backend is running."
-                        )}
+                        Make sure the SynaptiChat
+                        AI backend is running.
                     </p>
 
                     <small>
@@ -743,10 +690,7 @@ function updateAnalytics(
     reduction =
         Math.max(
             0,
-            Math.min(
-                100,
-                reduction
-            )
+            Math.min(100, reduction)
         );
 
 
@@ -798,19 +742,13 @@ copyBtn.addEventListener(
             temp.value =
                 currentSummary;
 
-            document.body.appendChild(
-                temp
-            );
+            document.body.appendChild(temp);
 
             temp.select();
 
-            document.execCommand(
-                "copy"
-            );
+            document.execCommand("copy");
 
-            document.body.removeChild(
-                temp
-            );
+            document.body.removeChild(temp);
 
             showTemporaryButtonText(
                 copyBtn,
@@ -879,36 +817,25 @@ downloadBtn.addEventListener(
 
 
         const url =
-            URL.createObjectURL(
-                blob
-            );
+            URL.createObjectURL(blob);
 
 
         const link =
-            document.createElement(
-                "a"
-            );
+            document.createElement("a");
 
-        link.href =
-            url;
+        link.href = url;
 
         link.download =
             "SynaptiChat_Summary.txt";
 
 
-        document.body.appendChild(
-            link
-        );
+        document.body.appendChild(link);
 
         link.click();
 
-        document.body.removeChild(
-            link
-        );
+        document.body.removeChild(link);
 
-        URL.revokeObjectURL(
-            url
-        );
+        URL.revokeObjectURL(url);
 
 
         showTemporaryButtonText(
@@ -961,9 +888,7 @@ function getHistory() {
 
     try {
 
-        return JSON.parse(
-            saved
-        );
+        return JSON.parse(saved);
 
     } catch {
 
@@ -1002,9 +927,7 @@ function saveToHistory(
     };
 
 
-    history.unshift(
-        item
-    );
+    history.unshift(item);
 
 
     localStorage.setItem(
@@ -1046,8 +969,7 @@ function displayHistory() {
     }
 
 
-    historyList.innerHTML =
-        "";
+    historyList.innerHTML = "";
 
 
     history.forEach(
@@ -1217,26 +1139,11 @@ clearHistoryBtn.addEventListener(
 function escapeHTML(text) {
 
     return String(text)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
