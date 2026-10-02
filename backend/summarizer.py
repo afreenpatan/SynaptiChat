@@ -2,34 +2,68 @@ import re
 from collections import Counter
 
 
-# ---------------------------------------------------------
-# BASIC TEXT SETTINGS
-# ---------------------------------------------------------
+# ============================================================
+# STOP WORDS
+# ============================================================
 
 STOP_WORDS = {
     "the", "a", "an", "and", "or", "but", "if", "then",
     "is", "are", "was", "were", "be", "been", "being",
     "to", "of", "in", "on", "at", "for", "from", "with",
-    "by", "as", "this", "that", "these", "those",
-    "it", "its", "i", "we", "you", "he", "she", "they",
-    "me", "my", "our", "your", "their", "will", "would",
-    "can", "could", "should", "have", "has", "had",
-    "do", "does", "did", "please", "let", "us"
+    "by", "as", "it", "this", "that", "these", "those",
+    "we", "i", "you", "he", "she", "they", "me", "my",
+    "our", "your", "their", "will", "would", "can", "could",
+    "should", "shall", "do", "does", "did", "have", "has",
+    "had", "am", "not", "so", "very", "just", "please",
+    "let", "us"
 }
 
+
+# ============================================================
+# ACTION WORDS
+# ============================================================
 
 ACTION_VERBS = {
-    "finish", "complete", "prepare", "create", "make",
-    "send", "share", "submit", "review", "check",
-    "update", "upload", "download", "write", "design",
-    "develop", "build", "test", "fix", "present",
-    "discuss", "collect", "analyze", "analyse", "provide",
-    "finalize", "finalise", "organize", "organise",
-    "call", "meet", "work", "prepare", "give"
+    "complete",
+    "finish",
+    "prepare",
+    "send",
+    "share",
+    "test",
+    "update",
+    "review",
+    "create",
+    "build",
+    "develop",
+    "design",
+    "submit",
+    "check",
+    "fix",
+    "write",
+    "collect",
+    "present",
+    "upload",
+    "download",
+    "implement",
+    "deploy",
+    "analyze",
+    "discuss",
+    "finalize",
+    "report",
+    "deliver",
+    "work",
+    "prepare",
+    "make",
+    "start",
+    "continue"
 }
 
 
-TIME_PATTERNS = [
+# ============================================================
+# DEADLINE WORDS
+# ============================================================
+
+DEADLINE_PATTERNS = [
     r"\btoday\b",
     r"\btomorrow\b",
     r"\btonight\b",
@@ -38,125 +72,108 @@ TIME_PATTERNS = [
     r"\bnext week\b",
     r"\bthis month\b",
     r"\bnext month\b",
-    r"\bthis weekend\b",
-    r"\bnext weekend\b",
-    r"\bby\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b",
-    r"\b(on|by)\s+\d{1,2}(st|nd|rd|th)?\b",
-    r"\b\d{1,2}/\d{1,2}/\d{2,4}\b",
-    r"\b\d{1,2}-\d{1,2}-\d{2,4}\b",
-    r"\b(in|within)\s+\d+\s+(day|days|week|weeks|month|months)\b",
-    r"\bby\s+\d{1,2}\s*(am|pm)\b",
-    r"\bat\s+\d{1,2}\s*(am|pm)\b"
+    r"\bmonday\b",
+    r"\btuesday\b",
+    r"\bwednesday\b",
+    r"\bthursday\b",
+    r"\bfriday\b",
+    r"\bsaturday\b",
+    r"\bsunday\b",
+    r"\bby\s+\w+\b",
+    r"\bbefore\s+\w+\b",
+    r"\bafter\s+\w+\b"
 ]
 
 
-# ---------------------------------------------------------
-# TEXT CLEANING
-# ---------------------------------------------------------
-
-def clean_message(text):
-    """
-    Cleans one individual message without removing line breaks.
-    """
-
-    text = text.replace("\r", "")
-    text = re.sub(r"[ \t]+", " ", text)
-    return text.strip()
-
-
-# ---------------------------------------------------------
-# MESSAGE PARSING
-# ---------------------------------------------------------
+# ============================================================
+# PARSE CHAT MESSAGES
+# ============================================================
 
 def parse_messages(text):
     """
-    Converts chat text into:
+    Convert chat text into:
     [
         {
-            "name": "Arjun",
-            "message": "We need to finish..."
+            "person": "Arjun",
+            "message": "We need to complete..."
         }
     ]
-
-    Supports formats such as:
-    Arjun: Hello
-    Sneha: I'll prepare the report
     """
 
     messages = []
 
+    if not text:
+        return messages
+
     lines = text.splitlines()
 
-    current_name = None
+    current_person = None
     current_message = []
 
     for raw_line in lines:
 
-        line = clean_message(raw_line)
+        line = raw_line.strip()
 
         if not line:
             continue
 
-        # Speaker format:
-        # Arjun: message
+        # Match:
+        # Arjun: Hello
+        # Sneha: I'll do this
         match = re.match(
-            r"^\s*([A-Za-z][A-Za-z0-9 _.-]{0,40})\s*:\s*(.+)$",
+            r"^\s*([^:\n]{1,50})\s*:\s*(.+)$",
             line
         )
 
         if match:
 
             # Save previous message
-            if current_name is not None and current_message:
+            if current_person is not None:
 
                 messages.append({
-                    "name": current_name.strip(),
+                    "person": current_person.strip(),
                     "message": " ".join(current_message).strip()
                 })
 
-            current_name = match.group(1).strip()
+            current_person = match.group(1).strip()
             current_message = [match.group(2).strip()]
 
         else:
 
             # Continuation of previous message
-            if current_name is not None:
+            if current_person is not None:
                 current_message.append(line)
 
-            else:
-                # If there is no speaker, treat as Team
-                messages.append({
-                    "name": "Team",
-                    "message": line
-                })
-
     # Save final message
-    if current_name is not None and current_message:
+    if current_person is not None:
 
         messages.append({
-            "name": current_name.strip(),
+            "person": current_person.strip(),
             "message": " ".join(current_message).strip()
         })
 
     return messages
 
 
-# ---------------------------------------------------------
-# WORD PROCESSING
-# ---------------------------------------------------------
+# ============================================================
+# CLEAN TEXT
+# ============================================================
 
-def get_words(text):
-    words = re.findall(r"\b[a-zA-Z]{2,}\b", text.lower())
+def clean_text(text):
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
-    return [
-        word
-        for word in words
-        if word not in STOP_WORDS
-    ]
 
+# ============================================================
+# SPLIT SENTENCES
+# ============================================================
 
 def split_sentences(text):
-    sentences = re.split(r"(?<=[.!?])\s+", text.strip())
+
+    sentences = re.split(
+        r"(?<=[.!?])\s+",
+        text.strip()
+    )
 
     return [
         sentence.strip()
@@ -165,382 +182,300 @@ def split_sentences(text):
     ]
 
 
-# ---------------------------------------------------------
-# SUMMARY GENERATION
-# ---------------------------------------------------------
+# ============================================================
+# IMPORTANT WORDS
+# ============================================================
 
-def generate_summary(messages, max_sentences=3):
-    """
-    Generates an extractive summary.
+def important_words(text):
 
-    Important:
-    Speaker names are preserved separately.
-    """
+    words = re.findall(
+        r"[A-Za-z']+",
+        text.lower()
+    )
 
-    all_sentences = []
+    return [
+        word
+        for word in words
+        if word not in STOP_WORDS
+        and len(word) > 2
+    ]
 
-    for message in messages:
 
-        sentences = split_sentences(message["message"])
+# ============================================================
+# SENTENCE SCORE
+# ============================================================
 
-        for sentence in sentences:
+def sentence_score(sentence, frequencies):
 
-            all_sentences.append({
-                "name": message["name"],
-                "sentence": sentence
-            })
+    words = important_words(sentence)
 
-    if not all_sentences:
+    if not words:
+        return 0
+
+    score = sum(
+        frequencies.get(word, 0)
+        for word in words
+    )
+
+    # Give extra importance to action sentences
+    for word in words:
+
+        if word in ACTION_VERBS:
+            score += 2
+
+    # Give extra importance to deadline sentences
+    lower_sentence = sentence.lower()
+
+    for pattern in DEADLINE_PATTERNS:
+
+        if re.search(pattern, lower_sentence):
+            score += 2
+
+    return score / max(len(words), 1)
+
+
+# ============================================================
+# EXTRACT SUMMARY
+# ============================================================
+
+def extract_summary(messages, max_sentences=3):
+
+    if not messages:
         return ""
 
-    # Frequency of meaningful words
-    all_words = []
+    all_text = " ".join(
+        message["message"]
+        for message in messages
+    )
 
-    for item in all_sentences:
-        all_words.extend(get_words(item["sentence"]))
+    sentences = split_sentences(all_text)
 
-    frequency = Counter(all_words)
+    if not sentences:
+        return ""
 
-    # Score each sentence
+    words = important_words(all_text)
+
+    frequencies = Counter(words)
+
     scored = []
 
-    for index, item in enumerate(all_sentences):
+    for index, sentence in enumerate(sentences):
 
-        words = get_words(item["sentence"])
-
-        if not words:
-            score = 0
-        else:
-            score = sum(
-                frequency[word]
-                for word in words
-            ) / len(words)
-
-        # Give action-oriented sentences a small boost
-        if any(
-            re.search(
-                rf"\b{re.escape(verb)}\b",
-                item["sentence"].lower()
-            )
-            for verb in ACTION_VERBS
-        ):
-            score += 1.5
-
-        scored.append({
-            "index": index,
-            "name": item["name"],
-            "sentence": item["sentence"],
-            "score": score
-        })
-
-    # Highest scoring sentences
-    scored_sorted = sorted(
-        scored,
-        key=lambda x: x["score"],
-        reverse=True
-    )
-
-    selected = scored_sorted[:max_sentences]
-
-    # Keep original conversation order
-    selected.sort(key=lambda x: x["index"])
-
-    summary_parts = []
-
-    for item in selected:
-        summary_parts.append(item["sentence"])
-
-    return " ".join(summary_parts)
-
-
-# ---------------------------------------------------------
-# DEADLINE DETECTION
-# ---------------------------------------------------------
-
-def find_deadline(text):
-    """
-    Finds an actual time/date expression.
-
-    Returns:
-        "this week"
-        "Friday"
-        "tomorrow"
-        "tonight"
-        etc.
-
-    Returns None if no real deadline/time expression exists.
-    """
-
-    text_lower = text.lower()
-
-    # More specific patterns first
-    patterns = [
-        r"\bthis week\b",
-        r"\bnext week\b",
-        r"\bthis month\b",
-        r"\bnext month\b",
-        r"\bthis weekend\b",
-        r"\bnext weekend\b",
-        r"\btonight\b",
-        r"\btomorrow\b",
-        r"\btoday\b",
-        r"\byesterday\b",
-        r"\bby\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b",
-        r"\b(on|by)\s+\d{1,2}(st|nd|rd|th)?\b",
-        r"\b\d{1,2}/\d{1,2}/\d{2,4}\b",
-        r"\b\d{1,2}-\d{1,2}-\d{2,4}\b",
-        r"\b(in|within)\s+\d+\s+(day|days|week|weeks|month|months)\b",
-        r"\bby\s+\d{1,2}\s*(am|pm)\b",
-        r"\bat\s+\d{1,2}\s*(am|pm)\b"
-    ]
-
-    for pattern in patterns:
-
-        match = re.search(
-            pattern,
-            text_lower,
-            re.IGNORECASE
+        score = sentence_score(
+            sentence,
+            frequencies
         )
 
-        if match:
+        scored.append(
+            (score, index, sentence)
+        )
 
-            deadline = match.group(0)
+    # Highest scoring sentences
+    selected = sorted(
+        scored,
+        key=lambda item: item[0],
+        reverse=True
+    )[:max_sentences]
 
-            # Clean "by " / "on " when appropriate
-            deadline = re.sub(
-                r"^(by|on)\s+",
-                "",
-                deadline,
-                flags=re.IGNORECASE
-            )
-
-            return deadline.strip()
-
-    # Simple weekday detection
-    weekdays = [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
-    ]
-
-    for day in weekdays:
-
-        if re.search(
-            rf"\b{day}\b",
-            text_lower
-        ):
-            return day
-
-    return None
-
-
-# ---------------------------------------------------------
-# ACTION DETECTION
-# ---------------------------------------------------------
-
-def is_action_message(text):
-    """
-    Determines whether a message contains a meaningful action.
-    """
-
-    text_lower = text.lower()
-
-    # "I'll prepare..."
-    if re.search(
-        r"\b(i['’]ll|i will|we['’]ll|we will)\b",
-        text_lower
-    ):
-        return True
-
-    # "Please send..."
-    if re.search(
-        r"\bplease\s+\w+",
-        text_lower
-    ):
-        return True
-
-    # "Let's review..."
-    if re.search(
-        r"\blet['’]s\s+\w+",
-        text_lower
-    ):
-        return True
-
-    # Explicit action verbs
-    for verb in ACTION_VERBS:
-
-        if re.search(
-            rf"\b{re.escape(verb)}\b",
-            text_lower
-        ):
-            return True
-
-    return False
-
-
-# ---------------------------------------------------------
-# ACTION CLEANING
-# ---------------------------------------------------------
-
-def clean_action_text(text):
-    """
-    Removes conversational prefixes while preserving
-    the actual task.
-    """
-
-    cleaned = text.strip()
-
-    # Remove "I'll"
-    cleaned = re.sub(
-        r"^(i['’]ll|i will)\s+",
-        "",
-        cleaned,
-        flags=re.IGNORECASE
+    # Restore original conversation order
+    selected = sorted(
+        selected,
+        key=lambda item: item[1]
     )
 
-    # Remove "We'll"
-    cleaned = re.sub(
-        r"^(we['’]ll|we will)\s+",
-        "",
-        cleaned,
-        flags=re.IGNORECASE
+    summary = " ".join(
+        item[2]
+        for item in selected
     )
 
-    # Remove "Let's"
-    cleaned = re.sub(
-        r"^let['’]s\s+",
-        "",
-        cleaned,
-        flags=re.IGNORECASE
-    )
-
-    # Remove "Please"
-    cleaned = re.sub(
-        r"^please\s+",
-        "",
-        cleaned,
-        flags=re.IGNORECASE
-    )
-
-    return cleaned.strip()
+    return clean_text(summary)
 
 
-# ---------------------------------------------------------
+# ============================================================
 # EXTRACT ACTIONS
-# ---------------------------------------------------------
+# ============================================================
 
 def extract_actions(messages):
+
     actions = []
 
     for message in messages:
 
-        text = message["message"]
+        person = message["person"]
+        text = clean_text(message["message"])
 
-        if not is_action_message(text):
-            continue
+        sentences = split_sentences(text)
 
-        # Don't treat pure deadline statements as actions
-        cleaned = clean_action_text(text)
+        for sentence in sentences:
 
-        if not cleaned:
-            continue
+            lower_sentence = sentence.lower()
 
-        # Remove ending punctuation
-        cleaned = cleaned.rstrip(".!?")
+            has_action = False
 
-        actions.append({
-            "name": message["name"],
-            "task": cleaned
-        })
+            # Check action verbs
+            for verb in ACTION_VERBS:
+
+                if re.search(
+                    rf"\b{re.escape(verb)}\b",
+                    lower_sentence
+                ):
+                    has_action = True
+                    break
+
+            # Also detect common future/action patterns
+            if re.search(
+                r"\b(i'll|i will|we'll|we will|let's|please)\b",
+                lower_sentence
+            ):
+                has_action = True
+
+            if not has_action:
+                continue
+
+            # Remove trailing punctuation
+            task = sentence.strip()
+
+            task = re.sub(
+                r"\s+",
+                " ",
+                task
+            )
+
+            task = task.rstrip(".!?")
+
+            actions.append({
+                "person": person,
+                "task": task
+            })
 
     return actions
 
 
-# ---------------------------------------------------------
+# ============================================================
 # EXTRACT DEADLINES
-# ---------------------------------------------------------
+# ============================================================
 
 def extract_deadlines(messages):
+
     deadlines = []
 
     for message in messages:
 
-        text = message["message"]
+        person = message["person"]
+        text = clean_text(message["message"])
 
-        deadline = find_deadline(text)
+        sentences = split_sentences(text)
 
-        if not deadline:
-            continue
+        for sentence in sentences:
 
-        # Remove the deadline phrase from the sentence
-        description = re.sub(
-            re.escape(deadline),
-            "",
-            text,
-            flags=re.IGNORECASE
-        ).strip()
+            lower_sentence = sentence.lower()
 
-        # Clean common connecting words
-        description = re.sub(
-            r"\b(by|on|for)\s*$",
-            "",
-            description,
-            flags=re.IGNORECASE
-        ).strip()
+            found_deadline = None
 
-        description = description.rstrip(".!?")
+            # Specific deadline patterns
+            for pattern in DEADLINE_PATTERNS:
 
-        # Avoid meaningless deadline entries
-        if not description:
-            description = "Task"
+                match = re.search(
+                    pattern,
+                    lower_sentence
+                )
 
-        deadlines.append({
-            "name": message["name"],
-            "deadline": deadline,
-            "description": description
-        })
+                if match:
+
+                    found_deadline = match.group(0)
+
+                    break
+
+            if not found_deadline:
+                continue
+
+            # Normalize "by friday" → "friday"
+            if found_deadline.startswith("by "):
+
+                found_deadline = found_deadline[3:]
+
+            elif found_deadline.startswith("before "):
+
+                found_deadline = found_deadline[7:]
+
+            elif found_deadline.startswith("after "):
+
+                found_deadline = found_deadline[6:]
+
+            found_deadline = found_deadline.strip()
+
+            # Keep the original sentence as description
+            description = sentence.strip()
+
+            description = description.rstrip(".!?")
+
+            deadlines.append({
+                "person": person,
+                "date": found_deadline,
+                "description": description
+            })
 
     return deadlines
 
 
-# ---------------------------------------------------------
-# STRUCTURED RESULT
-# ---------------------------------------------------------
+# ============================================================
+# REMOVE DUPLICATE ACTIONS
+# ============================================================
 
-def create_structured_summary(text):
+def remove_duplicate_actions(actions):
 
-    messages = parse_messages(text)
+    unique = []
 
-    if not messages:
-        return {
-            "summary": "",
-            "actions": [],
-            "deadlines": []
-        }
+    seen = set()
 
-    summary = generate_summary(
-        messages,
-        max_sentences=3
-    )
+    for action in actions:
 
-    actions = extract_actions(messages)
+        key = (
+            action.get("person", "").lower(),
+            action.get("task", "").lower()
+        )
 
-    deadlines = extract_deadlines(messages)
+        if key in seen:
+            continue
 
-    return {
-        "summary": summary,
-        "actions": actions,
-        "deadlines": deadlines
-    }
+        seen.add(key)
+
+        unique.append(action)
+
+    return unique
 
 
-# ---------------------------------------------------------
-# MAIN FUNCTION USED BY FASTAPI
-# ---------------------------------------------------------
+# ============================================================
+# REMOVE DUPLICATE DEADLINES
+# ============================================================
+
+def remove_duplicate_deadlines(deadlines):
+
+    unique = []
+
+    seen = set()
+
+    for deadline in deadlines:
+
+        key = (
+            deadline.get("person", "").lower(),
+            deadline.get("date", "").lower(),
+            deadline.get("description", "").lower()
+        )
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+
+        unique.append(deadline)
+
+    return unique
+
+
+# ============================================================
+# MAIN SUMMARIZER
+# ============================================================
 
 def summarize_text(text):
 
@@ -552,9 +487,58 @@ def summarize_text(text):
             "deadlines": []
         }
 
-    # IMPORTANT:
-    # Do NOT call clean_message(text) here.
-    # We need the original line breaks so that
-    # each speaker can be detected separately.
+    # ----------------------------------------
+    # PARSE MESSAGES
+    # ----------------------------------------
 
-    return create_structured_summary(text)
+    messages = parse_messages(text)
+
+    # ----------------------------------------
+    # FALLBACK IF CHAT HAS NO NAMES
+    # ----------------------------------------
+
+    if not messages:
+
+        messages = [{
+            "person": "Team",
+            "message": clean_text(text)
+        }]
+
+    # ----------------------------------------
+    # SUMMARY
+    # ----------------------------------------
+
+    summary = extract_summary(
+        messages,
+        max_sentences=3
+    )
+
+    # ----------------------------------------
+    # ACTIONS
+    # ----------------------------------------
+
+    actions = extract_actions(messages)
+
+    actions = remove_duplicate_actions(
+        actions
+    )
+
+    # ----------------------------------------
+    # DEADLINES
+    # ----------------------------------------
+
+    deadlines = extract_deadlines(messages)
+
+    deadlines = remove_duplicate_deadlines(
+        deadlines
+    )
+
+    # ----------------------------------------
+    # RETURN STRUCTURED RESULT
+    # ----------------------------------------
+
+    return {
+        "summary": summary,
+        "actions": actions,
+        "deadlines": deadlines
+    }

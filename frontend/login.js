@@ -1,7 +1,33 @@
-const loginForm = document.getElementById("loginForm");
+// ===============================
+// SUPABASE CONFIGURATION
+// ===============================
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const SUPABASE_URL =
+    "https://ncmzxckwmqxeedgvnnur.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_aPG_CYVW5l8p9XHxBkZegw_P_AVSQSl";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+// ===============================
+// ELEMENTS
+// ===============================
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
 
 const togglePassword =
     document.getElementById("togglePassword");
@@ -34,63 +60,83 @@ togglePassword.addEventListener("click", function () {
 
 
 // ===============================
-// PASSWORD VALIDATION
+// PASSWORD VALIDATION DISPLAY
 // ===============================
 
 passwordInput.addEventListener("input", function () {
 
-    const password = passwordInput.value;
+    const password =
+        passwordInput.value;
 
-    const length = document.getElementById("length");
-    const uppercase = document.getElementById("uppercase");
-    const number = document.getElementById("number");
-    const special = document.getElementById("special");
+    const length =
+        document.getElementById("length");
+
+    const uppercase =
+        document.getElementById("uppercase");
+
+    const number =
+        document.getElementById("number");
+
+    const special =
+        document.getElementById("special");
 
 
     // 8 characters
+
     if (password.length >= 8) {
 
-        length.textContent = "✓ At least 8 characters";
+        length.textContent =
+            "✓ At least 8 characters";
 
     } else {
 
-        length.textContent = "○ At least 8 characters";
+        length.textContent =
+            "○ At least 8 characters";
 
     }
 
 
     // Uppercase
+
     if (/[A-Z]/.test(password)) {
 
-        uppercase.textContent = "✓ One uppercase letter";
+        uppercase.textContent =
+            "✓ One uppercase letter";
 
     } else {
 
-        uppercase.textContent = "○ One uppercase letter";
+        uppercase.textContent =
+            "○ One uppercase letter";
 
     }
 
 
     // Number
+
     if (/[0-9]/.test(password)) {
 
-        number.textContent = "✓ One number";
+        number.textContent =
+            "✓ One number";
 
     } else {
 
-        number.textContent = "○ One number";
+        number.textContent =
+            "○ One number";
 
     }
 
 
     // Special character
+
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
 
-        special.textContent = "✓ One special character";
+        special.textContent =
+            "✓ One special character";
 
     } else {
 
-        special.textContent = "○ One special character";
+        special.textContent =
+            "○ One special character";
 
     }
 
@@ -101,92 +147,152 @@ passwordInput.addEventListener("input", function () {
 // LOGIN
 // ===============================
 
-loginForm.addEventListener("submit", async function (event) {
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
 
-    event.preventDefault();
-
-    loginError.textContent = "";
-
-
-    const email = emailInput.value.trim();
-
-    const password = passwordInput.value;
+        event.preventDefault();
 
 
-    // Validate password
-    const validPassword =
-        password.length >= 8 &&
-        /[A-Z]/.test(password) &&
-        /[0-9]/.test(password) &&
-        /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        // Clear previous message
+
+        loginError.textContent = "";
+
+        loginError.style.color = "";
 
 
-    if (!validPassword) {
+        const email =
+            emailInput.value.trim();
 
-        loginError.textContent =
-            "Please enter a valid password.";
-
-        return;
-
-    }
+        const password =
+            passwordInput.value;
 
 
-    try {
+        // ===============================
+        // BASIC VALIDATION
+        // ===============================
 
-        const response = await fetch(
-           "https://synaptichat.onrender.com/login",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            }
-        );
-
-
-        const data = await response.json();
-
-
-        if (response.ok) {
-
-            // Save login status
-            localStorage.setItem(
-                "synaptichat_logged_in",
-                "true"
-            );
-
-            localStorage.setItem(
-                "synaptichat_email",
-                email
-            );
-
-
-            // Go to home
-            window.location.href = "home.html";
-
-        } else {
+        if (!email) {
 
             loginError.textContent =
-                data.detail || "Invalid email or password.";
+                "Please enter your email.";
+
+            return;
 
         }
 
-    } catch (error) {
 
-        console.error(error);
+        if (!password) {
 
-        loginError.textContent =
-            "Unable to connect to the backend.";
+            loginError.textContent =
+                "Please enter your password.";
+
+            return;
+
+        }
+
+
+        // ===============================
+        // LOGIN WITH SUPABASE
+        // ===============================
+
+        try {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth
+                    .signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
+
+
+            // ===============================
+            // LOGIN ERROR
+            // ===============================
+
+            if (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                if (
+                    error.message
+                        .toLowerCase()
+                        .includes("email not confirmed")
+                ) {
+
+                    loginError.textContent =
+                        "Please verify your email before logging in.";
+
+                } else {
+
+                    loginError.textContent =
+                        "Invalid email or password.";
+
+                }
+
+                return;
+
+            }
+
+
+            // ===============================
+            // LOGIN SUCCESS
+            // ===============================
+
+            if (data && data.user) {
+
+                // Save login information
+
+                localStorage.setItem(
+                    "synaptichat_logged_in",
+                    "true"
+                );
+
+
+                localStorage.setItem(
+                    "synaptichat_email",
+                    data.user.email
+                );
+
+
+                localStorage.setItem(
+                    "synaptichat_user_id",
+                    data.user.id
+                );
+
+
+                // Redirect to home page
+
+                window.location.href =
+                    "home.html";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unexpected login error:",
+                error
+            );
+
+
+            loginError.textContent =
+                "Unable to connect to Supabase. Please try again.";
+
+        }
 
     }
-
-});
+);
 
 
 // ===============================
@@ -195,29 +301,100 @@ loginForm.addEventListener("submit", async function (event) {
 
 document
     .getElementById("forgotPassword")
-    .addEventListener("click", function (event) {
+    .addEventListener(
+        "click",
+        async function (event) {
 
-        event.preventDefault();
-
-        alert(
-            "Password reset functionality will be added soon."
-        );
-
-    });
+            event.preventDefault();
 
 
-// ===============================
-// SIGN UP
-// ===============================
+            const email =
+                emailInput.value.trim();
 
-document
-    .getElementById("signupLink")
-    .addEventListener("click", function (event) {
 
-        event.preventDefault();
+            // ===============================
+            // EMAIL REQUIRED
+            // ===============================
 
-        alert(
-            "Account creation functionality will be added soon."
-        );
+            if (!email) {
 
-    });
+                loginError.style.color = "";
+
+                loginError.textContent =
+                    "Please enter your email first.";
+
+                return;
+
+            }
+
+
+            // ===============================
+            // SEND RESET EMAIL
+            // ===============================
+
+            try {
+
+                const {
+                    error
+                } =
+                    await supabaseClient.auth
+                        .resetPasswordForEmail(
+                            email,
+                            {
+                                redirectTo:
+                                    window.location.origin +
+                                    "/reset-password.html"
+                            }
+                        );
+
+
+                // ===============================
+                // RESET ERROR
+                // ===============================
+
+                if (error) {
+
+                    console.error(
+                        "Password reset error:",
+                        error
+                    );
+
+
+                    loginError.style.color = "";
+
+                    loginError.textContent =
+                        error.message;
+
+                    return;
+
+                }
+
+
+                // ===============================
+                // RESET SUCCESS
+                // ===============================
+
+                loginError.style.color =
+                    "#86efac";
+
+
+                loginError.textContent =
+                    "Password reset link sent! Please check your email.";
+
+            } catch (error) {
+
+                console.error(
+                    "Password reset error:",
+                    error
+                );
+
+
+                loginError.style.color = "";
+
+                loginError.textContent =
+                    "Unable to send password reset email.";
+
+            }
+
+        }
+    );
